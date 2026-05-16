@@ -75,6 +75,8 @@ Awesome-Chinese-Stable-Diffusion
 | Wan2.6 | - | DiT | - | 720p+ | - |
 | ERNIE-Image | 8B | DiT (single-stream) | ERNIE-based | 2K | 支持 |
 | ERNIE-Image-Turbo | 8B | DiT (8-step distill) | ERNIE-based | 2K | 支持 |
+| Wan2.7-Image | - | Unified DiT | - | 4096 | 支持 (12语言) |
+| Qwen-Image-2.0-Pro | 20B+ | MMDiT | Qwen2.5-VL-7B | 2K+ | 支持 |
 
 ### 1.2 开源模型
 
@@ -251,7 +253,7 @@ Awesome-Chinese-Stable-Diffusion
 
   * 简介：采用了一种可扩展的单流数字图像处理 （S3-DiT）架构。在该架构中，文本、视觉语义标记和图像 VAE 标记在序列级别上连接起来，作为统一的输入流，与双流方法相比，最大限度地提高了参数效率。Decoupled-DMD：Z-Image背后的加速魔力，Decoupled-DMD 是赋能 8 步 Z-Image 模型的核心少步蒸馏算法。团队在 Decoupled-DMD 中的核心洞察是，现有分布匹配蒸馏（Distributaion Matching Distillation，DMD）方法的成功来源于两个独立且协作的机制：CFG 增强：驱动蒸馏过程的主要引擎 ，这是以前工作中大多被忽视的因素。分布匹配：更像是一种正则化器 ，确保生成结果的稳定性和质量。通过识别并解耦这两个机制，能够独立地研究和优化它们。这最终促使团队开发出了一种改进的蒸馏流程，大幅提升了少步生成的性能。在Decoupled-DMD 基础上，8 步 Z-Image 模型已经展示了卓越的能力。为了在语义对齐、美学质量和结构一致性方面实现进一步提升，同时生成具有更丰富高频细节的图像，团队提出了 DMDR。DMDR 的核心洞见是，强化学习（RL）与分布匹配蒸馏（DMD）可以在少步模型的后训练阶段协同整合。团队展示了：1. RL 解锁了 DMD 的性能，2. DMD 有效规范了 RL。Z-Image-Turbo —— Z-Image 的蒸馏轻量版，仅使用 8 步即可达到或超越主流竞品性能。它在企业级 H800 GPU 上可实现亚秒级推理速度⚡️，并能轻松运行于 16G显存的消费级设备。该模型在 照片级写实生成、中英双语文字渲染，以及指令遵循方面表现突出。
 
-    **更新**：2026年1月28日，阿里通义发布了Z-Image-Base（非蒸馏基础版本），支持负提示词、LoRA训练和ControlNet结构化控制，采用Apache 2.0协议开源。同期还发布了Z-Image-Turbo-Fun-Controlnet-Union 2.0/2.1，支持多条件控制（canny、depth、pose等）。
+    **更新**：2026年1月28日，阿里通义发布了Z-Image-Base（非蒸馏基础版本），支持负提示词、LoRA训练和ControlNet结构化控制，采用Apache 2.0协议开源。同期还发布了Z-Image-Turbo-Fun-Controlnet-Union 2.0/2.1，支持多条件控制（canny、depth、pose等）。截至2026年5月，Z-Image-Edit（编辑版）仍在开发中，社区高度期待，预计将与Qwen-Image-Edit共同构成阿里完整的图像生成+编辑工具链。
 
 * **Ovis-Image**：
 
@@ -314,6 +316,18 @@ Awesome-Chinese-Stable-Diffusion
   * 地址：https://huggingface.co/baidu/ERNIE-Image
 
   * 简介：百度文心于 2026 年 4 月 15 日开源的 8B 单流 DiT 中文文生图模型，以 Apache-2.0 许可证发布。文本编码器基于 ERNIE LLM，并搭配轻量 Prompt Enhancer 与 iRAG 检索增强，实现强中英双语理解与 2K 高清生成。当前在 8B 量级开源模型中**中英双语图内文字渲染**与多面板漫画生成能力领先。同期还放出了 8 步采样的 **ERNIE-Image-Turbo** 蒸馏版（[huggingface.co/baidu/ERNIE-Image-Turbo](https://huggingface.co/baidu/ERNIE-Image-Turbo)），延迟优化场景的同源伴侣模型。
+
+* **Wan2.7-Image / Wan2.7-Image-Pro**：
+
+  * 地址：https://github.com/Wan-Video/Wan2.1
+
+  * 简介：Wan2.7-Image是阿里通义万相于2026年4月1日发布的图像生成与编辑统一架构模型，相比前代实现了重大跨越。基础版Wan2.7-Image面向通用场景，Pro版本是业界首个具备内置推理模式（Thinking Mode）的4K级别文生图模型，原生支持4096×4096分辨率输出，达到印刷级图像质量。文本编码方面支持12种语言，最长可处理3000 tokens的复杂提示词，能够清晰渲染学术公式、表格等结构化内容。整个Wan2.7套件包含4个API端点，覆盖从标准到专业级的全场景需求，与Wan2.7的视频模型（文生视频、图生视频、参考视频+语音克隆、指令编辑）共同构成完整的开源多模态生成体系，统一在Apache 2.0协议下开源。
+
+* **Qwen-Image-2.0-Pro**：
+
+  * 地址：https://qwen.ai/blog?id=a6f483777144685d33cd3d2af95136fcbeb57652
+
+  * 简介：Qwen-Image-2.0-Pro是阿里Qwen团队于2026年4月22日发布的Qwen-Image-2.0增强版本。在LM Arena文生图排行榜上排名第9位（Elo约1168±8），是Qwen-Image系列首个跻身全球前十的版本。相比基础版Qwen-Image-2.0，Pro版本在排版渲染、细节保真度和复杂提示理解上均有显著提升，进一步巩固了Qwen系列在双语文生图与图像编辑统一场景下的开源SOTA地位。模型仍延续20B MMDiT架构和Qwen2.5-VL-7B文本编码器。
 
 ### 1.3 闭源模型
 
