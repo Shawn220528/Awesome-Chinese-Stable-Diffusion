@@ -77,6 +77,10 @@ Awesome-Chinese-Stable-Diffusion
 | ERNIE-Image-Turbo | 8B | DiT (8-step distill) | ERNIE-based | 2K | 支持 |
 | Wan2.7-Image | - | Unified DiT | - | 4096 | 支持 (12语言) |
 | Qwen-Image-2.0-Pro | 20B+ | MMDiT | Qwen2.5-VL-7B | 2K+ | 支持 |
+| HiDream-O1-Image | 8B | UiT (Pixel-native) | Gemma-4-31B (reasoning) | 2048 | - |
+| NextStep-1 | 14B + 157M | AR + Flow Matching | 内置 LM head | 1024+ | - |
+| Step-Image-Edit-2 | 3.5B | MMDiT | - | 1024+ | 支持 |
+| Boogu-Image-0.1 | 10B | DiT | Qwen3-VL-8B | 2048 | 支持 |
 
 ### 1.2 开源模型
 
@@ -311,6 +315,30 @@ Awesome-Chinese-Stable-Diffusion
   * 简介：BAGEL-7B-MoT是字节跳动Seed团队于2025年5月发布的统一多模态基础模型，总参数量14B，激活参数7B。该模型采用Mixture-of-Transformer（MoT）架构，在单一模型中统一了文生图生成（效果可与SD3竞争）、图像编辑和多模态理解三大能力。在LM Arena文生图排行榜上有排名。BAGEL的创新之处在于将理解和生成能力融合在同一个模型中，无需为不同任务切换模型。
 
 
+* **HiDream-O1-Image**：
+
+  * 地址：https://github.com/HiDream-ai/HiDream-O1-Image ![](https://img.shields.io/github/stars/HiDream-ai/HiDream-O1-Image.svg)
+
+  * 简介：HiDream-O1-Image是HiDream.ai于2026年5月8日发布的8B开源文生图模型（MIT许可证），采用全新的像素级统一Transformer（Pixel-level Unified Transformer, UiT）架构，彻底移除了传统的VAE模块，扩散Transformer直接在原始像素空间操作，将文本和任务条件统一在同一个token空间中。该模型在单一架构中统一了文生图生成、指令编辑、主体驱动个性化和分镜生成四大能力，支持最高2048×2048分辨率。HiDream-O1-Image内置了基于Gemma-4-31B-IT的推理驱动提示词代理（Reasoning-Driven Prompt Agent），在生成前进行O1风格的思考规划。发布时在Artificial Analysis Image Arena排名第8，是当时排名最高的开源模型，以7倍更小的参数量超越了FLUX.2 Dev（56B）。
+
+* **NextStep-1 / NextStep-1.1**：
+
+  * 地址：https://github.com/stepfun-ai/NextStep-1 ![](https://img.shields.io/github/stars/stepfun-ai/NextStep-1.svg)
+
+  * 简介：NextStep-1是阶跃星辰（StepFun）于2025年8月发布的14B自回归文生图模型，获得**ICLR 2026 Oral**，训练代码和NextStep-1.1后训练版本于2026年2月16日开源。该模型采用自回归语言模型架构处理连续图像token，创新性地使用标准LM head处理离散文本token、轻量级Flow Matching head（157M）处理连续视觉token，通过新型自编码器将图像编码为patchwise连续latent token。NextStep-1在DPG-Bench上达到85.28分，支持文生图和图像编辑（物体增删、背景替换、风格迁移）。该模型代表了自回归范式在文生图领域的前沿探索。
+
+* **Step-Image-Edit-2**：
+
+  * 地址：https://github.com/stepfun-ai/Step1X-Edit ![](https://img.shields.io/github/stars/stepfun-ai/Step1X-Edit.svg)
+
+  * 简介：Step-Image-Edit-2是阶跃星辰（StepFun）于2026年4月29日发布的3.5B轻量级统一文生图与图像编辑模型，是Step1X-Edit（19B）的后继版本。该模型以仅3.5B的参数量在KRIS-Bench指令编辑基准上排名第一（事实类和概念类），超越了多个12B-20B量级模型。支持中英文文字渲染、局部编辑、风格迁移、主体一致性等能力，单图推理延迟仅0.5-2秒。训练数据超5000万样本，其中2000万为文字编辑专用数据。
+
+* **Boogu-Image-0.1**：
+
+  * 地址：https://github.com/boogu-project/Boogu-Image ![](https://img.shields.io/github/stars/boogu-project/Boogu-Image.svg)
+
+  * 简介：Boogu-Image-0.1是Boogu Project于2026年6月16日发布的10B开源文生图与图像编辑统一模型家族（Apache-2.0许可证），包含三个变体：Base（基础生成模型，25-50步推理，强调多样性和可控性）、Turbo（3-4步蒸馏版，基于Decoupled DMD加速，面向快速推理和照片级真实感）和Edit（图像编辑与变换）。文本编码器采用Qwen3-VL-8B-Instruct，VAE复用开源FLUX.1 VAE，支持1K和2K分辨率输出。该模型的训练数据规模仅为同类闭源系统的约十分之一，但在Boogu Arena评测中达到了接近闭源模型的表现，与GPT-Image-2、Seedream 5.0、Qwen-Image、Z-Image等进行了对比。支持中英双语文字渲染，擅长海报、印章、文档界面、品牌指南等场景的超密集文字生成。同时提供FP8量化版本以降低部署门槛。
+
 * **ERNIE-Image / 文心 ERNIE-Image**：
 
   * 地址：https://huggingface.co/baidu/ERNIE-Image
@@ -391,6 +419,12 @@ Awesome-Chinese-Stable-Diffusion
     通过一个基于扩散模型的「组合式生成」框架，Composer 能够对配色、布局、风格等图像设计元素进行拆解和组合，实现了高度可控性和极大自由度的图像生成效果。所谓拆解 - 组合，首先将图像分解为不同的设计元素，比如配色、草图、布局、风格、语义、材质等。然后使用 AI 模型将这些设计元素重新组合成新的图像。这里，拆解 - 组合过程中允许对用到的元素自由修改编辑，如此一来可控性大大增强。
     
     正是基于 Composer 框架，通义万相才能让我们体验到相似图生成和风格迁移这两种图生图功能。一边用图像理解模型将图像拆解为不同元素，一边用扩散模型将这些元素重新组合成新图像，双管齐下，图生图水到渠成。其中对于相似图生成，保持图像语义内容不变，仅仅改变图像中的局部细节，就能生成相似图片。过程中既可以较好地保持原图主体一致性，还提升了生成图的多样性和质量。对于风格迁移，一方面保留原图的基本形态、结构，另一方面将目标风格图片的风格、色彩、笔触等个性化信息，最终实现风格迁移。
+
+* **快手可图Kling Image 3.0**：
+
+  * 地址：https://klingai.com
+  
+  * 简介：快手于2026年2月5日发布的Kling Image 3.0，是可图系列文生图模型的重大升级。该模型引入了视觉思维链（Visual Chain-of-Thought, VCoT）推理机制，在生成图像前先进行视觉规划推理，显著提升了复杂场景的语义理解和构图合理性。Kling Image 3.0原生支持2K和4K超高清分辨率输出，支持最多10张参考图输入，可生成具有一致风格和叙事连贯性的系列图像。Omni变体进一步支持多语言/方言音频生成。该模型目前通过Kling AI平台以商业API形式提供。
 
 * **字节Seedream系列**：
 
