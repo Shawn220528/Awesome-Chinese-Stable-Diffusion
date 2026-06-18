@@ -345,6 +345,8 @@ Awesome-Chinese-Stable-Diffusion
 
   * 简介：百度文心于 2026 年 4 月 15 日开源的 8B 单流 DiT 中文文生图模型，以 Apache-2.0 许可证发布。文本编码器基于 ERNIE LLM，并搭配轻量 Prompt Enhancer 与 iRAG 检索增强，实现强中英双语理解与 2K 高清生成。当前在 8B 量级开源模型中**中英双语图内文字渲染**与多面板漫画生成能力领先。同期还放出了 8 步采样的 **ERNIE-Image-Turbo** 蒸馏版（[huggingface.co/baidu/ERNIE-Image-Turbo](https://huggingface.co/baidu/ERNIE-Image-Turbo)），延迟优化场景的同源伴侣模型。
 
+### 1.3 闭源模型
+
 * **Wan2.7-Image / Wan2.7-Image-Pro**：
 
   * 地址：https://github.com/Wan-Video/Wan2.1
@@ -356,8 +358,6 @@ Awesome-Chinese-Stable-Diffusion
   * 地址：https://qwen.ai/blog?id=a6f483777144685d33cd3d2af95136fcbeb57652
 
   * 简介：Qwen-Image-2.0-Pro是阿里Qwen团队于2026年4月22日发布的Qwen-Image-2.0增强版本。在LM Arena文生图排行榜上排名第9位（Elo约1168±8），是Qwen-Image系列首个跻身全球前十的版本。相比基础版Qwen-Image-2.0，Pro版本在排版渲染、细节保真度和复杂提示理解上均有显著提升，进一步巩固了Qwen系列在双语文生图与图像编辑统一场景下的开源SOTA地位。模型仍延续20B MMDiT架构和Qwen2.5-VL-7B文本编码器。
-
-### 1.3 闭源模型
 
 * **腾讯混元**：
   * 地址：https://mp.weixin.qq.com/s/hEqVR89qDyMckld-OikDPQ
