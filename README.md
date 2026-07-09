@@ -69,7 +69,8 @@ Awesome-Chinese-Stable-Diffusion
 | Qwen-Image-2512 | 20B | MMDiT | Qwen2.5-VL-7B | 2048+ | 支持 |
 | Qwen-Image-Layered | 20B | MMDiT | Qwen2.5-VL-7B | 2048+ | - |
 | Qwen-Image-2.0 | - | MMDiT | - | 2K | 支持 |
-| Z-Image-Base | - | S3-DiT | - | 1024+ | 支持 |
+| Qwen-Image-2.0-RL | - | MMDiT + RLHF/OPD | - | 2K | 支持 |
+| Z-Image-Turbo | - | S3-DiT (8-step distill) | - | 1024+ | 支持 |
 | BAGEL-7B-MoT | 14B (7B active) | MoT | - | 1024+ | - |
 | Wan2.5 | - | DiT | umT5 | 720p+ | - |
 | Wan2.6 | - | DiT | - | 720p+ | - |
@@ -81,6 +82,7 @@ Awesome-Chinese-Stable-Diffusion
 | NextStep-1 | 14B + 157M | AR + Flow Matching | 内置 LM head | 1024+ | - |
 | Step-Image-Edit-2 | 3.5B | MMDiT | - | 1024+ | 支持 |
 | Boogu-Image-0.1 | 10B | DiT | Qwen3-VL-8B | 2048 | 支持 |
+| JuZhou 1.0 | 0.387B | UNet + Rectified Flow | Chinese CLIP | 1024 | 支持 |
 
 ### 1.2 开源模型
 
@@ -249,7 +251,7 @@ Awesome-Chinese-Stable-Diffusion
 
   * 简介：混元图像3.0是首个开源的工业级原生多模态图像生成模型，这里的工业级说的是效果能达到可用的地步，之前学术界其实也有很多开源的原生多模态生图模型，但是效果上其实都不算很好。此外，这个模型是80B的MoE模型（13B激活参数），也是目前参数量最大的开源生图模型。HunyuanImage-3.0 是一个突破性的原生多模态模型，它在一个自回归框架内统一了多模态理解和生成。我们的文本到图像模块实现了与领先闭源模型相当或超越的性能。统一多模态架构：超越流行的基于 DiT 的架构，HunyuanImage-3.0 采用统一的自回归框架。这种设计能够更直接和集成地建模文本和图像模态，从而实现令人惊讶的有效且具有丰富上下文的图像生成。最大图像生成 MoE 模型：这是迄今为止最大的开源图像生成专家混合（MoE）模型。它拥有 64 个专家，总参数量达 800 亿，每个 token 激活参数达 130 亿，显著提升了其容量和性能。卓越的图像生成性能：通过严格的数集筛选和先进的强化学习后训练，我们在语义准确性和视觉卓越性之间实现了最佳平衡。该模型在遵循提示方面表现出色，同时提供具有惊人美学质量和细粒度细节的逼真图像。 智能世界知识推理：统一的跨模态架构赋予 HunyuanImage-3.0 强大的推理能力。它利用其丰富的世界知识智能地理解用户意图，自动用恰当的上下文细节补充稀疏提示，以生成更优质、更完整的视觉输出。
 
-    **更新**：2026年1月26日，腾讯发布了HunyuanImage-3.0-Instruct及其蒸馏版本HunyuanImage-3.0-Instruct-Distil。Instruct版本引入了Chain-of-Thoughts推理能力，支持指令驱动的图像生成和编辑，在LM Arena文生图排行榜上排名第10位（Elo约1153）。
+    **更新**：2026年1月26日，腾讯发布了HunyuanImage-3.0-Instruct及其蒸馏版本HunyuanImage-3.0-Instruct-Distil。Instruct版本引入了Chain-of-Thoughts推理能力，支持指令驱动的图像生成和编辑。截至2026年7月5日，Hunyuan Image 3.0在LM Arena Text-to-Image Overall排行榜上排名第24位（Elo 1151±3）。
 
 * **Z-Image**：
 
@@ -257,7 +259,7 @@ Awesome-Chinese-Stable-Diffusion
 
   * 简介：采用了一种可扩展的单流数字图像处理 （S3-DiT）架构。在该架构中，文本、视觉语义标记和图像 VAE 标记在序列级别上连接起来，作为统一的输入流，与双流方法相比，最大限度地提高了参数效率。Decoupled-DMD：Z-Image背后的加速魔力，Decoupled-DMD 是赋能 8 步 Z-Image 模型的核心少步蒸馏算法。团队在 Decoupled-DMD 中的核心洞察是，现有分布匹配蒸馏（Distributaion Matching Distillation，DMD）方法的成功来源于两个独立且协作的机制：CFG 增强：驱动蒸馏过程的主要引擎 ，这是以前工作中大多被忽视的因素。分布匹配：更像是一种正则化器 ，确保生成结果的稳定性和质量。通过识别并解耦这两个机制，能够独立地研究和优化它们。这最终促使团队开发出了一种改进的蒸馏流程，大幅提升了少步生成的性能。在Decoupled-DMD 基础上，8 步 Z-Image 模型已经展示了卓越的能力。为了在语义对齐、美学质量和结构一致性方面实现进一步提升，同时生成具有更丰富高频细节的图像，团队提出了 DMDR。DMDR 的核心洞见是，强化学习（RL）与分布匹配蒸馏（DMD）可以在少步模型的后训练阶段协同整合。团队展示了：1. RL 解锁了 DMD 的性能，2. DMD 有效规范了 RL。Z-Image-Turbo —— Z-Image 的蒸馏轻量版，仅使用 8 步即可达到或超越主流竞品性能。它在企业级 H800 GPU 上可实现亚秒级推理速度⚡️，并能轻松运行于 16G显存的消费级设备。该模型在 照片级写实生成、中英双语文字渲染，以及指令遵循方面表现突出。
 
-    **更新**：2026年1月28日，阿里通义发布了Z-Image-Base（非蒸馏基础版本），支持负提示词、LoRA训练和ControlNet结构化控制，采用Apache 2.0协议开源。同期还发布了Z-Image-Turbo-Fun-Controlnet-Union 2.0/2.1，支持多条件控制（canny、depth、pose等）。截至2026年5月，Z-Image-Edit（编辑版）仍在开发中，社区高度期待，预计将与Qwen-Image-Edit共同构成阿里完整的图像生成+编辑工具链。
+    **更新**：官方模型族包含Z-Image-Turbo、Z-Image、Z-Image-Omni-Base和Z-Image-Edit等版本。Z-Image-Turbo是8步蒸馏版本，面向快速高质量文生图；Z-Image是Turbo背后的基础生成模型，支持负提示词、创意生成、微调和下游开发；Z-Image-Omni-Base定位为兼具生成和编辑能力的原始基础模型；Z-Image-Edit是面向图像编辑的微调版本。截至2026年7月，官方Model Zoo中Z-Image与Z-Image-Turbo已提供权重，Z-Image-Omni-Base与Z-Image-Edit仍标注为待发布。
 
 * **Ovis-Image**：
 
@@ -288,7 +290,7 @@ Awesome-Chinese-Stable-Diffusion
 
   * 地址：https://huggingface.co/Qwen/Qwen-Image-2512
 
-  * 简介：Qwen-Image-2512是阿里Qwen-Image的更新版本（2025年12月发布），专注于提升人像生成的真实感。相比初版Qwen-Image，该模型在面部细节、皮肤纹理、光影表现等方面进行了优化，生成的人像更加自然，减少了"AI生成感"。在LM Arena文生图排行榜上排名第15位（Elo约1142）。模型架构与Qwen-Image一致，为20B的MMDiT，采用Qwen2.5-VL-7B作为文本编码器。
+  * 简介：Qwen-Image-2512是阿里Qwen-Image的更新版本（2025年12月发布），专注于提升人像生成的真实感。相比初版Qwen-Image，该模型在面部细节、皮肤纹理、光影表现等方面进行了优化，生成的人像更加自然，减少了"AI生成感"。截至2026年7月5日，在LM Arena Text-to-Image Overall排行榜上排名第34位（Elo 1127±4）。模型架构与Qwen-Image一致，为20B的MMDiT，采用Qwen2.5-VL-7B作为文本编码器。
 
 * **Qwen-Image-Layered**：
 
@@ -300,13 +302,13 @@ Awesome-Chinese-Stable-Diffusion
 
   * 地址：https://github.com/QwenLM/Qwen-Image
 
-  * 简介：Qwen-Image-2.0是阿里于2026年2月10日发布的最新文生图模型，是Qwen-Image系列的重大升级。该模型统一了图像生成和编辑能力，支持专业排版渲染（PPT幻灯片、海报、漫画等），可处理最长1000个tokens的复杂文本输入，原生支持2K分辨率输出。相比前代，Qwen-Image-2.0在排版设计、信息图生成、多语言文字渲染等方面有显著提升，同时采用了更轻量的架构设计。
+  * 简介：Qwen-Image-2.0是阿里于2026年2月10日发布的文生图模型，是Qwen-Image系列的重大升级。该模型统一了图像生成和编辑能力，支持专业排版渲染（PPT幻灯片、海报、漫画等），可处理最长1000个tokens的复杂文本输入，原生支持2K分辨率输出。相比前代，Qwen-Image-2.0在排版设计、信息图生成、多语言文字渲染等方面有显著提升，同时采用了更轻量的架构设计。
 
-* **Z-Image-Base**：
+* **Qwen-Image-2.0-RL**：
 
-  * 地址：https://huggingface.co/Tongyi-MAI/Z-Image
+  * 地址：https://arxiv.org/abs/2606.27608
 
-  * 简介：Z-Image-Base是阿里通义实验室于2026年1月28日发布的Z-Image系列非蒸馏基础版本。与已有的Z-Image-Turbo（8步蒸馏版）不同，Z-Image-Base是全能力基础模型，支持负提示词（Negative Prompt）、LoRA微调训练、ControlNet结构化控制等高级功能。采用Apache 2.0协议开源，为社区提供了更灵活的二次开发基础。同期还发布了Z-Image-Turbo-Fun-Controlnet-Union 2.0/2.1，支持多条件控制（canny、depth、pose等）。
+  * 简介：Qwen-Image-2.0-RL是Qwen团队于2026年6月25日公开的强化学习后训练技术报告，面向Qwen-Image-2.0构建了覆盖文生图和图像编辑任务的奖励模型体系，并结合GRPO训练、混合CFG策略、提示词筛选与on-policy distillation（OPD）合并多任务策略。报告显示，该方法在Qwen-Image-Bench上取得57.84综合分，相比基础模型提升2.61；在文生图竞技场中Elo达到1193（+78），在图像编辑竞技场中Elo达到1349（+93），主要提升美学质量、指令遵循和编辑准确性。
 
 * **BAGEL-7B-MoT**：
 
@@ -337,7 +339,7 @@ Awesome-Chinese-Stable-Diffusion
 
   * 地址：https://github.com/boogu-project/Boogu-Image ![](https://img.shields.io/github/stars/boogu-project/Boogu-Image.svg)
 
-  * 简介：Boogu-Image-0.1是Boogu Project于2026年6月16日发布的10B开源文生图与图像编辑统一模型家族（Apache-2.0许可证），包含三个变体：Base（基础生成模型，25-50步推理，强调多样性和可控性）、Turbo（3-4步蒸馏版，基于Decoupled DMD加速，面向快速推理和照片级真实感）和Edit（图像编辑与变换）。文本编码器采用Qwen3-VL-8B-Instruct，VAE复用开源FLUX.1 VAE，支持1K和2K分辨率输出。该模型的训练数据规模仅为同类闭源系统的约十分之一，但在Boogu Arena评测中达到了接近闭源模型的表现，与GPT-Image-2、Seedream 5.0、Qwen-Image、Z-Image等进行了对比。支持中英双语文字渲染，擅长海报、印章、文档界面、品牌指南等场景的超密集文字生成。同时提供FP8量化版本以降低部署门槛。
+  * 简介：Boogu-Image-0.1是Boogu Project于2026年6月16日发布的10B开源文生图与图像编辑统一模型家族（Apache-2.0许可证），包含Base（基础生成模型，25-50步推理，强调多样性和可控性）、Turbo（3-4步蒸馏版，基于Decoupled DMD加速，面向快速推理和照片级真实感）、Edit（图像编辑与变换）和Edit-Turbo（四步蒸馏编辑版）等变体。文本编码器采用Qwen3-VL-8B-Instruct，VAE复用开源FLUX.1 VAE，支持1K和2K分辨率输出。该模型支持中英双语文字渲染，擅长海报、印章、文档界面、品牌指南等场景的超密集文字生成，并提供FP8量化版本以降低部署门槛。2026年6月30日，官方发布Boogu-Image-0.1-Edit-Turbo；2026年7月8日发布Edit-Turbo hotfix，修复前一版本问题并提供1K/1.5K检查点。
 
 * **ERNIE-Image / 文心 ERNIE-Image**：
 
@@ -345,19 +347,25 @@ Awesome-Chinese-Stable-Diffusion
 
   * 简介：百度文心于 2026 年 4 月 15 日开源的 8B 单流 DiT 中文文生图模型，以 Apache-2.0 许可证发布。文本编码器基于 ERNIE LLM，并搭配轻量 Prompt Enhancer 与 iRAG 检索增强，实现强中英双语理解与 2K 高清生成。当前在 8B 量级开源模型中**中英双语图内文字渲染**与多面板漫画生成能力领先。同期还放出了 8 步采样的 **ERNIE-Image-Turbo** 蒸馏版（[huggingface.co/baidu/ERNIE-Image-Turbo](https://huggingface.co/baidu/ERNIE-Image-Turbo)），延迟优化场景的同源伴侣模型。
 
+* **JuZhou 1.0**：
+
+  * 地址：https://arxiv.org/abs/2606.28421
+
+  * 简介：JuZhou 1.0是2026年6月25日提交、2026年7月8日修订的端侧中文文生图技术报告，定位为离线、端侧运行的超轻量文生图基础模型。模型由0.385B参数去噪UNet和1.90M参数蒸馏解码器组成，总规模约0.387B；训练采用Rectified Flow并结合DMD2蒸馏，将推理减少到4步；中文语义对齐阶段使用900万精选图文对，使模型可直接接受中文提示词而无需外部翻译。报告还强调训练与蒸馏均在国产曙光K100 AI加速器上完成，并在Android和iOS端验证了移动端部署能力。
+
 ### 1.3 闭源模型
 
 * **Wan2.7-Image / Wan2.7-Image-Pro**：
 
   * 地址：https://github.com/Wan-Video/Wan2.1
 
-  * 简介：Wan2.7-Image是阿里通义万相于2026年4月1日发布的图像生成与编辑统一架构模型，相比前代实现了重大跨越。基础版Wan2.7-Image面向通用场景，Pro版本是业界首个具备内置推理模式（Thinking Mode）的4K级别文生图模型，原生支持4096×4096分辨率输出，达到印刷级图像质量。文本编码方面支持12种语言，最长可处理3000 tokens的复杂提示词，能够清晰渲染学术公式、表格等结构化内容。整个Wan2.7套件包含4个API端点，覆盖从标准到专业级的全场景需求，与Wan2.7的视频模型（文生视频、图生视频、参考视频+语音克隆、指令编辑）共同构成完整的开源多模态生成体系，统一在Apache 2.0协议下开源。
+  * 简介：Wan2.7-Image是阿里通义万相于2026年4月1日发布的图像生成与编辑统一架构模型，相比前代实现了重大跨越。基础版Wan2.7-Image面向通用场景，Pro版本具备内置推理模式（Thinking Mode）并支持4K级别文生图，原生支持4096×4096分辨率输出，达到印刷级图像质量。文本编码方面支持12种语言，最长可处理3000 tokens的复杂提示词，能够清晰渲染学术公式、表格等结构化内容。整个Wan2.7套件包含多个API端点，覆盖从标准到专业级的图像生成与编辑场景。截至2026年7月5日，Wan2.7-Image-Pro和Wan2.7-Image在LM Arena Text-to-Image Overall排行榜上分别排名第44位（Elo 1102±5）和第45位（Elo 1099±5）。
 
 * **Qwen-Image-2.0-Pro**：
 
   * 地址：https://qwen.ai/blog?id=a6f483777144685d33cd3d2af95136fcbeb57652
 
-  * 简介：Qwen-Image-2.0-Pro是阿里Qwen团队于2026年4月22日发布的Qwen-Image-2.0增强版本。在LM Arena文生图排行榜上排名第9位（Elo约1168±8），是Qwen-Image系列首个跻身全球前十的版本。相比基础版Qwen-Image-2.0，Pro版本在排版渲染、细节保真度和复杂提示理解上均有显著提升，进一步巩固了Qwen系列在双语文生图与图像编辑统一场景下的开源SOTA地位。模型仍延续20B MMDiT架构和Qwen2.5-VL-7B文本编码器。
+  * 简介：Qwen-Image-2.0-Pro是阿里Qwen团队于2026年4月22日发布的Qwen-Image-2.0增强版本。截至2026年7月5日，qwen-image-2.0-pro-2026-06-22在LM Arena Text-to-Image Overall排行榜上排名第12位（Elo 1193±8）。相比基础版Qwen-Image-2.0，Pro版本在排版渲染、细节保真度和复杂提示理解上均有显著提升，进一步巩固了Qwen系列在双语文生图与图像编辑统一场景下的高水平表现。模型仍延续20B MMDiT架构和Qwen2.5-VL-7B文本编码器。
 
 * **腾讯混元**：
   * 地址：https://mp.weixin.qq.com/s/hEqVR89qDyMckld-OikDPQ
@@ -432,13 +440,13 @@ Awesome-Chinese-Stable-Diffusion
 
   * 简介：Seedream是字节跳动的文生图大模型系列，已迭代多个重要版本：
 
-    **Seedream 3.0**（2025年初）：双语文生图基础模型，原生2K分辨率，支持准确的小字生成。在LM Arena排名第24位（Elo约1084）。DiT采用SD3的MMDiT架构，文本tokens和图像tokens统一进行attention但参数不共享，位置编码采用自研的Scaling RoPE（以图像中心编码位置，不同分辨率设置不同缩放因子）。文本编码器采用LLM（而非T5），并结合Glyph-ByT5提取文字字形特征以提升文字渲染准确性。
+    **Seedream 3.0**（2025年初）：双语文生图基础模型，原生2K分辨率，支持准确的小字生成。截至2026年7月5日，Seedream 3在LM Arena Text-to-Image Overall排行榜上排名第48位（Elo 1082±5）。DiT采用SD3的MMDiT架构，文本tokens和图像tokens统一进行attention但参数不共享，位置编码采用自研的Scaling RoPE（以图像中心编码位置，不同分辨率设置不同缩放因子）。文本编码器采用LLM（而非T5），并结合Glyph-ByT5提取文字字形特征以提升文字渲染准确性。
 
-    **Seedream 4.0**（2025年中）：统一了文生图合成、图像编辑和多图组合能力。采用高效DiT主干+强大VAE，支持原生高分辨率最高4K输出，2K图像生成仅需1.8秒。技术报告：arXiv 2509.20427。在LM Arena上Seedream-4-2k排名第14位。
+    **Seedream 4.0**（2025年中）：统一了文生图合成、图像编辑和多图组合能力。采用高效DiT主干+强大VAE，支持原生高分辨率最高4K输出，2K图像生成仅需1.8秒。技术报告：arXiv 2509.20427。截至2026年7月5日，Seedream-4-2k在LM Arena Text-to-Image Overall排行榜上排名第29位（Elo 1141±7）。
 
-    **Seedream 4.5**（2025年底）：改进了主体一致性、参考细节保持和排版保真度，支持批量输入/输出。在LM Arena排名第13位（Elo约1142）。
+    **Seedream 4.5**（2025年底）：改进了主体一致性、参考细节保持和排版保真度，支持批量输入/输出。截至2026年7月5日，在LM Arena Text-to-Image Overall排行榜上排名第28位（Elo 1146±3）。
 
-    **Seedream 5.0 / 5.0 Lite**（2026 年 2 月 10 日 / 13 日）：首次引入"深度思考"（deep-thinking）规划器，将 MLLM 与 DiT 统一在一个推理流水里，支持图内文字 100+ 语种渲染、最多 14 张参考图、原生 3K 分辨率、并接入实时网页搜索做世界知识对齐。已上线剪映（国内）、CapCut（海外）和小云雀 AI 平台。Lite 版本对应延迟优化场景的同源精简模型。
+    **Seedream 5.0 / 5.0 Lite**（2026 年 2 月 10 日 / 13 日）：首次引入"深度思考"（deep-thinking）规划器，将 MLLM 与 DiT 统一在一个推理流水里，支持图内文字 100+ 语种渲染、最多 14 张参考图、原生 3K 分辨率、并接入实时网页搜索做世界知识对齐。已上线剪映（国内）、CapCut（海外）和小云雀 AI 平台。Lite 版本对应延迟优化场景的同源精简模型；截至2026年7月5日，Seedream-5.0-Lite在LM Arena Text-to-Image Overall排行榜上排名第31位（Elo 1133±4）。
 
 
 
@@ -549,9 +557,9 @@ Awesome-Chinese-Stable-Diffusion
 
 * **LM Arena Text-to-Image**：
 
-  * 地址：https://lmarena.ai/leaderboard/text-to-image
+  * 地址：https://arena.ai/leaderboard/text-to-image
 
-  * 简介：基于真实用户投票的Elo排名系统，是评估AI图像生成模型的金标准。采用盲测对比方式，由用户选择更好的生成结果来计算排名。
+  * 简介：基于真实用户投票的Elo排名系统，是评估AI图像生成模型的重要参考。采用盲测对比方式，由用户选择更好的生成结果来计算排名。截至2026年7月5日，Text-to-Image Arena Overall包含72个模型、565万+投票；中文/国内相关模型中，qwen-image-2.0-pro-2026-06-22排名第12位（1193±8），Hunyuan Image 3.0排名第24位（1151±3），Seedream 4.5排名第28位（1146±3），Qwen-Image-2512排名第34位（1127±4），Z-Image-Turbo排名第49位（1081±6），GLM-Image排名第67位（1011±9）。
 
 * **agicto.com 文生图排行榜**：
 
