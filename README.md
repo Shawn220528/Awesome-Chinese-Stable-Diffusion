@@ -66,7 +66,6 @@ Awesome-Chinese-Stable-Diffusion
 | LongCat-Image | - | MM-DiT + Single-DiT | VLM | 1024+ | 支持 |
 | Flux2 | 55B (23B TE + 32B DiT) | DiT | 23B TE | 2048 | - |
 | GLM-Image | - | AR + DiT | GLM-4-9B | 1024+ | 支持 (SOTA) |
-| SenseNova-U1 | 8B / A3B MoT | NEO-unify | 原生视觉-语言统一 | - | 支持 |
 | Qwen-Image-2512 | 20B | MMDiT | Qwen2.5-VL-7B | 2048+ | 支持 |
 | Qwen-Image-Layered | 20B | MMDiT | Qwen2.5-VL-7B | 2048+ | - |
 | Qwen-Image-2.0 | - | MMDiT | - | 2K | 支持 |
@@ -347,12 +346,6 @@ Awesome-Chinese-Stable-Diffusion
   * 地址：https://huggingface.co/baidu/ERNIE-Image
 
   * 简介：百度文心于 2026 年 4 月 15 日开源的 8B 单流 DiT 中文文生图模型，以 Apache-2.0 许可证发布。文本编码器基于 ERNIE LLM，并搭配轻量 Prompt Enhancer 与 iRAG 检索增强，实现强中英双语理解与 2K 高清生成。当前在 8B 量级开源模型中**中英双语图内文字渲染**与多面板漫画生成能力领先。同期还放出了 8 步采样的 **ERNIE-Image-Turbo** 蒸馏版（[huggingface.co/baidu/ERNIE-Image-Turbo](https://huggingface.co/baidu/ERNIE-Image-Turbo)），延迟优化场景的同源伴侣模型。
-
-* **SenseNova-U1**：
-
-  * 地址：https://github.com/OpenSenseNova/SenseNova-U1 ![](https://img.shields.io/github/stars/OpenSenseNova/SenseNova-U1.svg)
-
-  * 简介：SenseNova-U1是商汤OpenSenseNova于2026年4月开源的原生统一多模态理解与生成模型系列，采用NEO-unify架构，将语言和视觉信息作为统一复合体建模，不再依赖传统视觉编码器（VE）和VAE之间的模态桥接。官方开源了SenseNova-U1-8B-MoT和SenseNova-U1-A3B-MoT两个Lite系列，并提供Apache-2.0许可证的Hugging Face权重，支持文生图、图像编辑、图文交错生成和高密度信息图生成。后续更新包括2026年5月15日发布的Infographic模型、6月11日发布的Interleaved模型、6月12日发布的Infographic LoRA 8-step版本，以及6月29日发布的Infographic-V2，重点提升密集小字渲染、复杂版式生成和整体视觉美感。
 
 * **JuZhou 1.0**：
 
