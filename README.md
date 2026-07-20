@@ -2,7 +2,7 @@
 Awesome-Chinese-Stable-Diffusion
 </h1>
 <p align="center">
-<b>An Awesome Collection for SD in Chinese / 收集和梳理中文SD相关</b>
+<b>Awesome Chinese Image Generation Resources / 中文图像生成与编辑资源精选</b>
 </p>
 <p align="center">
   <a href="https://github.com/leeguandong/Awesome-Chinese-Stable-Diffusion/stargazers"> <img src="https://img.shields.io/github/stars/leeguandong/Awesome-Chinese-Stable-Diffusion.svg?style=popout-square" alt="GitHub stars"></a>
@@ -10,9 +10,11 @@ Awesome-Chinese-Stable-Diffusion
   <a href="https://github.com/leeguandong/Awesome-Chinese-Stable-Diffusion/forks"> <img src="https://img.shields.io/github/forks/leeguandong/Awesome-Chinese-Stable-Diffusion.svg?style=popout-square" alt="GitHub forks"></a>
 </p>
 
-> A curated list of Chinese Stable Diffusion resources, including open-source models, applications, datasets, and tutorials focused on Chinese text-to-image generation.
+> A curated list of Chinese image generation and editing resources, covering open and closed models, benchmarks, evaluation tools, and datasets.
 
-本项目旨在收集和梳理中文Stable-Diffusion相关的开源模型、应用、数据集及教程等资料，主要是有中文的模型新数据和算法！
+本项目旨在收集和梳理中文图像生成与编辑相关资源。除 Stable Diffusion 生态外，也收录 DiT、自回归、MoE 和统一多模态模型，以及中文文字渲染相关的评测与数据集。
+
+> 最近核验：2026-07-19。模型可用状态与链接以官方来源为准；排行榜分数保留各条目标注的统计日期。
 
 如果本项目能给您带来一点点帮助，麻烦点个⭐️吧～
 
@@ -21,9 +23,10 @@ Awesome-Chinese-Stable-Diffusion
 ## 目录
 
 - [1. 中文文生图模型](#1-中文文生图模型)
-  - [1.1 开源模型汇总](#11-开源模型汇总)
+  - [1.1 模型汇总](#11-模型汇总)
   - [1.2 开源模型](#12-开源模型)
   - [1.3 闭源模型](#13-闭源模型)
+  - [1.4 论文与待开放模型](#14-论文与待开放模型)
 - [2. 测评](#2-测评)
   - [2.1 评测基准](#21-评测基准)
   - [2.2 评测工具](#22-评测工具)
@@ -36,7 +39,9 @@ Awesome-Chinese-Stable-Diffusion
 
 ## 1. 中文文生图模型
 
-### 1.1 开源模型汇总
+### 1.1 模型汇总
+
+> 本表用于横向索引，包含已开源、闭源/API、仅论文与待开放项目；具体状态以 1.2～1.4 节为准。`-` 表示相关信息尚未公开或未能核验，并不等同于“不支持”。
 
 | 模型 | 参数量 | 架构 | 文本编码器 | 最大分辨率 | 中文文字渲染 |
 |------|--------|------|-----------|-----------|-------------|
@@ -51,37 +56,36 @@ Awesome-Chinese-Stable-Diffusion
 | WuKong-HuaHua | - | UNet (SD) | Chinese CLIP | 768 | - |
 | PanGu-Draw | 5B | UNet | Chinese CLIP | 1024 | - |
 | MiaoBi | - | UNet (SD 1.5) | Chinese | 512 | - |
-| 混元DiT | - | DiT | CLIP + T5 | 1024+ | - |
-| KOLORS | - | SDXL | ChatGLM3-6B | 1024 | 支持 |
+| 混元DiT | 1.5B | DiT | CLIP + T5 | 1024+ | - |
+| Kolors | - | SDXL | ChatGLM3-6B | 1024 | 支持 |
+| AnyText2 | - | SD 1.5 + WriteNet/AttnX | CLIP | 512 | 支持 |
 | UniT2IXL | - | SDXL | Chinese CLIP + LM | 1024 | - |
-| CogView4 | 6.4B (DiT) | DiT (Share-param) | GLM-4-9B | 2048 | 支持 |
-| HiDream-I1 | - | MoE DiT | CLIP + T5 + Llama-3.1-8B | 1024+ | - |
+| CogView4 | 6B | DiT (Share-param) | GLM-4-9B | 2048 | 支持 |
+| HiDream-I1 | 17B | MoE DiT | CLIP + T5 + Llama-3.1-8B | 1024+ | - |
 | Qwen-Image | 20B | MMDiT | Qwen2.5-VL-7B | 2048+ | 支持 |
 | Wan2.1 | 14B | DiT | umT5 | 720p | - |
 | Wan2.2 | 27B (14B active) | MoE DiT | - | 720p+ | - |
 | Hunyuan2.1 | 17B | DiT | MLLM + ByT5 | 2K | 支持 |
 | Hunyuan3 | 80B (13B active) | AR + MoE | GLM-based | 1024+ | 支持 |
-| Z-Image | - | S3-DiT | - | 1024+ | 支持 |
-| Ovis-Image | 7B | MMDiT | - | 1024+ | 支持 (SOTA) |
-| LongCat-Image | - | MM-DiT + Single-DiT | VLM | 1024+ | 支持 |
-| Flux2 | 55B (23B TE + 32B DiT) | DiT | 23B TE | 2048 | - |
-| GLM-Image | - | AR + DiT | GLM-4-9B | 1024+ | 支持 (SOTA) |
+| Z-Image | 6B | S3-DiT | - | 2048 | 支持 |
+| Ovis-Image | 7B | MMDiT | - | 1024+ | 支持 |
+| LongCat-Image | 6B | MM-DiT + Single-DiT | VLM | 1024+ | 支持 |
+| FLUX.2 | 32B 主干（另用 24B TE） | DiT | Mistral-Small-3.2-24B | 2048 | - |
+| GLM-Image | 16B（9B AR + 7B DiT） | AR + DiT | GLM-4-9B | 2K | 支持 |
 | Qwen-Image-2512 | 20B | MMDiT | Qwen2.5-VL-7B | 2048+ | 支持 |
 | Qwen-Image-Layered | 20B | MMDiT | Qwen2.5-VL-7B | 2048+ | - |
-| Qwen-Image-2.0 | - | MMDiT | - | 2K | 支持 |
-| Qwen-Image-2.0-RL | - | MMDiT + RLHF/OPD | - | 2K | 支持 |
-| Z-Image-Turbo | - | S3-DiT (8-step distill) | - | 1024+ | 支持 |
+| Qwen-Image-2.0 | - | - | - | 2K | 支持 |
+| Z-Image-Turbo | 6B | S3-DiT (8-step distill) | - | 2048 | 支持 |
 | BAGEL-7B-MoT | 14B (7B active) | MoT | - | 1024+ | - |
-| Wan2.5 | - | DiT | umT5 | 720p+ | - |
-| Wan2.6 | - | DiT | - | 720p+ | - |
 | ERNIE-Image | 8B | DiT (single-stream) | ERNIE-based | 2K | 支持 |
 | ERNIE-Image-Turbo | 8B | DiT (8-step distill) | ERNIE-based | 2K | 支持 |
-| Wan2.7-Image | - | Unified DiT | - | 4096 | 支持 (12语言) |
-| Qwen-Image-2.0-Pro | 20B+ | MMDiT | Qwen2.5-VL-7B | 2K+ | 支持 |
-| HiDream-O1-Image | 8B | UiT (Pixel-native) | Gemma-4-31B (reasoning) | 2048 | - |
+| Wan2.7-Image / Pro | - | - | - | 2K / 4K（Pro 文生图） | 支持 |
+| Qwen-Image-2.0-Pro | - | - | - | - | 支持 |
+| Seedream 5.0 Pro | - | - | - | - | 支持多语言 |
+| HiDream-O1-Image | 8B | UiT (Pixel-native) | 无外置文本编码器（Gemma-4-31B 提示词代理） | 2048 | - |
 | NextStep-1 | 14B + 157M | AR + Flow Matching | 内置 LM head | 1024+ | - |
-| Step-Image-Edit-2 | 3.5B | MMDiT | - | 1024+ | 支持 |
 | Boogu-Image-0.1 | 10B | DiT | Qwen3-VL-8B | 2048 | 支持 |
+| JoyAI-Image / Edit | 24B (8B MLLM + 16B MMDiT) | MLLM + MMDiT | 8B MLLM | 1024 | 支持 |
 | JuZhou 1.0 | 0.387B | UNet + Rectified Flow | Chinese CLIP | 1024 | 支持 |
 
 ### 1.2 开源模型
@@ -96,11 +100,11 @@ Awesome-Chinese-Stable-Diffusion
 
 * **中文StableDiffusion-通用领域**：
   * 地址：https://modelscope.cn/models/damo/multi-modal_chinese_stable_diffusion_v1.0/summary
-  * 简介：本模型采用的是[Stable Diffusion 2.1模型框架](https://github.com/Stability-AI/stablediffusion)，将原始英文领域的[OpenCLIP-ViT/H](https://github.com/mlfoundations/open_clip)文本编码器替换为中文CLIP文本编码器[chinese-clip-vit-huge-patch14](https://github.com/OFA-Sys/Chinese-CLIP)，并使用大规模中文图文pair数据进行训练。训练过程中，固定中文CLIP文本编码器，利用原始Stable Diffusion 2.1 权重对UNet网络参数进行初始化、利用64卡A100共训练35W steps。训练数据包括经中文翻译的公开数据集（LAION-400M、cc12m、Open Images）、以及互联网搜集数据，经过美学得分、图文相关性等预处理进行图像过滤，共计约4亿图文对。
+  * 简介：本模型采用的是[Stable Diffusion 2.1模型框架](https://github.com/Stability-AI/generative-models)，将原始英文领域的[OpenCLIP-ViT/H](https://github.com/mlfoundations/open_clip)文本编码器替换为中文CLIP文本编码器[chinese-clip-vit-huge-patch14](https://github.com/OFA-Sys/Chinese-CLIP)，并使用大规模中文图文pair数据进行训练。训练过程中，固定中文CLIP文本编码器，利用原始Stable Diffusion 2.1 权重对UNet网络参数进行初始化、利用64卡A100共训练35W steps。训练数据包括经中文翻译的公开数据集（LAION-400M、cc12m、Open Images）、以及互联网搜集数据，经过美学得分、图文相关性等预处理进行图像过滤，共计约4亿图文对。
   
 * **文本到图像生成扩散模型-中英文-通用领域-tiny**：
   * 地址：https://modelscope.cn/models/damo/cv_diffusion_text-to-image-synthesis_tiny/summary
-  * 简介：文本到图像生成模型由文本特征提取与扩散去噪模型两个子网络组成。文本特征提取子网络为StructBert结构，扩散去噪模型为unet结构。通过StructBert提取描述文本的语义特征后，送入扩散去噪unet子网络，通过迭代去噪的过程，逐步生成复合文本描述的图像。训练数据包括LAION400M公开数据集，以及互联网图文数据。文本截断到长度64 (有效长度62)，图像缩放到64x64进行处理。模型分为文本特征提取与扩散去噪模型两个子网络，训练也是分别进行。文本特征提取子网络StructBert使用大规模中文文本数据上预训练得到。扩散去噪模型则使用预训练StructBert提取文本特征后，与图像一同训练文本到图像生成模型。
+  * 简介：文本到图像生成模型由文本特征提取与扩散去噪模型两个子网络组成。文本特征提取子网络为StructBert结构，扩散去噪模型为unet结构。通过StructBert提取描述文本的语义特征后，送入扩散去噪unet子网络，通过迭代去噪的过程，逐步生成符合文本描述的图像。训练数据包括LAION400M公开数据集，以及互联网图文数据。文本截断到长度64 (有效长度62)，图像缩放到64x64进行处理。模型分为文本特征提取与扩散去噪模型两个子网络，训练也是分别进行。文本特征提取子网络StructBert在大规模中文文本数据上预训练得到。扩散去噪模型则使用预训练StructBert提取文本特征后，与图像一同训练文本到图像生成模型。
   
 * **通义-文本生成图像大模型-中英文-通用领域**：
   * 地址：https://www.modelscope.cn/models/damo/cv_diffusion_text-to-image-synthesis/summary
@@ -115,7 +119,7 @@ Awesome-Chinese-Stable-Diffusion
     Taiyi-SD：我们将[Noah-Wukong](https://link.zhihu.com/?target=https%3A//wukong-dataset.github.io/wukong-dataset/)数据集(100M)和[Zero](https://link.zhihu.com/?target=https%3A//zero.so.com/)数据集(23M)用作预训练的数据集，先用[IDEA-CCNL/Taiyi-CLIP-RoBERTa-102M-ViT-L-Chinese](https://link.zhihu.com/?target=https%3A//huggingface.co/IDEA-CCNL/Taiyi-CLIP-RoBERTa-102M-ViT-L-Chinese)对这两个数据集的图文对相似性进行打分，取CLIP Score大于0.2的图文对作为我们的训练集。 我们使用[IDEA-CCNL/Taiyi-CLIP-RoBERTa-102M-ViT-L-Chinese](https://link.zhihu.com/?target=https%3A//huggingface.co/IDEA-CCNL/Taiyi-CLIP-RoBERTa-102M-ViT-L-Chinese)作为初始化的text encoder，冻住[stable-diffusion-v1-4](https://link.zhihu.com/?target=https%3A//huggingface.co/CompVis/stable-diffusion-v1-4)([论文](https://link.zhihu.com/?target=https%3A//arxiv.org/abs/2112.10752))模型的其他部分，**只训练text encoder**，以便保留原始模型的生成能力且实现中文概念的对齐。该模型目前在0.2亿图文对上训练了一个epoch。 我们在 32 x A100 训练了大约100小时。
     补充: clip和sd的微调阶段都只调text encoder部分
 
-* **Taiyi-xl-3.5B**：
+* **Taiyi-XL-3.5B**：
 
   * 地址：https://huggingface.co/IDEA-CCNL/Taiyi-Stable-Diffusion-XL-3.5B
 
@@ -125,7 +129,7 @@ Awesome-Chinese-Stable-Diffusion
 
     我们的机器评估包括了对不同模型的全面比较。评估指标包括CLIP相似度（CLIP Sim）、IS和FID，为每个模型在图像质量、多样性和与文本描述的对齐方面提供了全面的评估。在英文数据集（COCO）中，Taiyi-XL在所有指标上表现优异，获得了最好的CLIP Sim、IS和FID得分。这表明Taiyi-XL在生成与英文文本提示紧密对齐的图像方面非常有效，同时保持了高图像质量和多样性。同样，在中文数据集（COCO-CN）中，Taiyi-XL也超越了其他模型，展现了其强大的双语能力。
 
-    尽管Taiyi-XL可能还未能与商业模型相媲美，但它比当前双语开源模型优越不少。我们认为我们模型与商业模型的差距主要归因于训练数据的数量、质量和多样性的差异。我们的模型仅使用学术数据集和符合版权要求的图文数据进行训练，未使用Midjourney和DALL-E 3等生成数据。XL版本模型，如SD-XL和Taiyi-XL，在1.5版本模型如SD-v1.5和Alt-Diffusion上显示出显著改进。DALL-E 3以其生动的色彩和prompt-following的能力而著称。Taiyi-XL模型偏向生成摄影风格的图片，与Midjourney较为类似，但是Taiyi-XL并在双语（中英文）文生图生成方面表现更出色。  
+    尽管Taiyi-XL可能还未能与商业模型相媲美，但它比当前双语开源模型优越不少。我们认为我们模型与商业模型的差距主要归因于训练数据的数量、质量和多样性的差异。我们的模型仅使用学术数据集和符合版权要求的图文数据进行训练，未使用Midjourney和DALL-E 3等生成数据。XL版本模型，如SD-XL和Taiyi-XL，在1.5版本模型如SD-v1.5和Alt-Diffusion上显示出显著改进。DALL-E 3以其生动的色彩和prompt-following的能力而著称。Taiyi-XL模型偏向生成摄影风格的图片，与Midjourney较为类似，而且 Taiyi-XL 在中英文文生图方面表现更出色。
     
 * **AltDiffusion**：
 
@@ -139,7 +143,7 @@ Awesome-Chinese-Stable-Diffusion
 
   * 地址：https://github.com/OpenBMB/VisCPM ![](https://img.shields.io/github/stars/OpenBMB/VisCPM.svg)
 
-  * 简介：VisCPM-Paint支持中英双语的文到图生成。该模型使用CPM-Bee（10B）作为文本编码器，使用UNet作为图像解码器，并通过扩散模型训练目标融合语言和视觉模型。在训练过程中，语言模型参数始终保持固定。我们使用[Stable Diffusion 2.1](https://github.com/Stability-AI/stablediffusion)的UNet参数初始化视觉解码器，并通过逐步解冻其中关键的桥接参数将其与语言模型融合。该模型在[LAION 2B](https://laion.ai/)英文图文对数据上进行了训练。
+  * 简介：VisCPM-Paint支持中英双语的文到图生成。该模型使用CPM-Bee（10B）作为文本编码器，使用UNet作为图像解码器，并通过扩散模型训练目标融合语言和视觉模型。在训练过程中，语言模型参数始终保持固定。我们使用[Stable Diffusion 2.1](https://github.com/Stability-AI/generative-models)的UNet参数初始化视觉解码器，并通过逐步解冻其中关键的桥接参数将其与语言模型融合。该模型在[LAION 2B](https://laion.ai/)英文图文对数据上进行了训练。
 
     与VisCPM-Chat类似，我们发现得益于CPM-Bee的双语能力，VisCPM-Paint可以仅通过英文图文对训练，泛化实现良好的中文文到图生成能力，达到中文开源模型的最佳效果。通过进一步加入20M清洗后的原生中文图文对数据，以及120M翻译到中文的图文对数据，模型的中文文到图生成能力可以获得进一步提升。我们在标准图像生成测试集MSCOCO上采样了3万张图片，计算了常用评估图像生成指标FID (Fréchet Inception Distance)评估生成图片的质量。我们同样提供了两个模型版本，分别为VisCPM-Paint-balance和VisCPM-Paint-zhplus，前者在英文和中文两种语言上的能力较为平衡，后者在中文能力上更加突出。VisCPM-Paint-balance只使用了英文图文对进行训练，VisCPM-Paint-zhplus在VisCPM-Paint-balance基础上增加了20M原生中文图文对数据和120M翻译到中文的图文对数据进行训练。
 
@@ -147,15 +151,15 @@ Awesome-Chinese-Stable-Diffusion
 
   * 地址：https://github.com/JeffDing/WuKong-HuaHua ![](https://img.shields.io/github/stars/JeffDing/WuKong-HuaHua.svg)
 
-  * 简介： Wukong-Huahua是基于扩散模型的中文以文生图大模型，由华为诺亚团队携手中软分布式并行实验室、昇腾计算产品部联合开发，使用昇思框架(MindSpore)+昇腾(Ascend)软硬件解决方案实现。该模型是基于目前最大的中文开源多模态数据集悟空数据集进行训练得来，具备优秀的中文文本-图像生成能力，能够实现多场景的绘画风格，可生成高质量的图像，给用户带来良好的使用体验。
+  * 简介： Wukong-Huahua是基于扩散模型的中文文生图大模型，由华为诺亚团队携手中软分布式并行实验室、昇腾计算产品部联合开发，使用昇思框架(MindSpore)+昇腾(Ascend)软硬件解决方案实现。该模型基于悟空中文多模态数据集训练，具备中文文本-图像生成能力，能够生成多种场景和绘画风格的图像。
 
     在1.0的基础上Wukong-Huahua模型基于华为MindSpore平台+昇腾硬件910进行大规模多机多卡训练，在新数据集上进行训练升级到2.0版本。相比于原版本，新版本大幅提升画质、艺术性和推理速度，更新内容包括以下3点：1.提升输出分辨率，2.0模型目前可以支持更高分辨率图形输出，从1.0版本的512x512提升到768x768，大图更清晰。2.采用自研Multistep-SDE采样加速推理技术，采样步数从原先的50步采样降到20-30步，加速2-3倍。3.采用自研RLAIF算法，提升生成图片的画质以及艺术性表达。
 
     悟空画画模型分别由中文文本编码器以及Stable Diffusion生成模型组成。具体的训练方法如下：
 
-    1.预训练中文图文判别模型，得到一个具有中文图文对齐能力的文本编码器；
+    1. 预训练中文图文判别模型，得到一个具有中文图文对齐能力的文本编码器；
 
-    2.我们结合Stable Diffusion图像生成模型和第一步训练得到的文本编码器，在悟空中文多模态数据集上进行训练，得到中文文图生成模型——悟空画画模型。
+    2. 结合Stable Diffusion图像生成模型和第一步训练得到的文本编码器，在悟空中文多模态数据集上进行训练，得到中文文图生成模型——悟空画画模型。
 
     悟空画画模型的训练依赖于悟空数据集，它是当时已开源的最大规模的中文多模态数据集。我们首先在百度搜索引擎上利用一百万个中文高频文本作为关键词进行图片搜索，获得接近20亿的原始图文对数据，此时这部分数据中包含了大量的噪声。第二步我们对这些原始数据进行多种方式的筛选清洗，主要操作包括：
 
@@ -164,15 +168,15 @@ Awesome-Chinese-Stable-Diffusion
     - 过滤文本长度过短，文本出现频次过高（如“如下图所示”等描述文本）的样本
     - 过滤文本中包含隐私/敏感词的样本
     
-    最终我们经过过滤得到了一亿较高质量中文图文对。进一步地，在训练悟空画画模型时，我们对悟空数据集的数据根据图文匹配分数、水印分数以及艺术性分数https://github.com/christophschuhmann/improved-aesthetic-predictor 再次进行筛选，最终获得25M左右的数据进行训练。该部分数据具有较高的图像质量，并对常见文本内容进行了良好的覆盖，使得训练得到的悟空画画模型对文本拥有广泛的识别能力，并能根据不同的提示词生成多样的图片风格。
+    最终我们经过过滤得到了一亿较高质量中文图文对。进一步地，在训练悟空画画模型时，我们对悟空数据集的数据根据图文匹配分数、水印分数以及[艺术性分数](https://github.com/christophschuhmann/improved-aesthetic-predictor)再次进行筛选，最终获得25M左右的数据进行训练。该部分数据具有较高的图像质量，并对常见文本内容进行了良好的覆盖，使得训练得到的悟空画画模型对文本拥有广泛的识别能力，并能根据不同的提示词生成多样的图片风格。
 
 * **PanGu-Draw**：
 
-  * 地址：https://github.com/mindspore-lab/mindone/blob/master/examples/pangu_draw_v3 ![](https://img.shields.io/github/stars/mindspore-lab/mindone.svg)
+  * 地址：https://pangu-draw.github.io/
 
   * 简介： 
 
-    * 网络结构扩容，参数量从1B扩大到5B，是当前**业界最大的中文文生图模型**；
+    * 网络结构扩容，参数量从1B扩大到5B，是发布时规模较大的中文文生图模型之一；
     *  支持**中英文双语**输入；
     *  提升输出分辨率，支持**原生1K输出**（v1->v2->v3: 512->768->1024）；
     *  多尺寸（16:9、4:3、2:1...）输出；
@@ -190,30 +194,36 @@ Awesome-Chinese-Stable-Diffusion
 
 * **腾讯混元DiT**：
 
-  * 地址：https://github.com/Tencent/HunyuanDiT ![](https://img.shields.io/github/stars/Tencent/HunyuanDiT.svg)
+  * 地址：https://github.com/Tencent-Hunyuan/HunyuanDiT ![](https://img.shields.io/github/stars/Tencent-Hunyuan/HunyuanDiT.svg)
 
   * 简介：混元DiT，一个基于Diffusion transformer的文本到图像生成模型，此模型具有中英文细粒度理解能力。为了构建混元DiT，我们精心设计了Transformer结构、文本编码器和位置编码。我们构建了完整的数据管道，用于更新和评估数据，为模型优化迭代提供帮助。为了实现细粒度的文本理解，我们训练了多模态大语言模型来优化图像的文本描述。最终，混元DiT能够与用户进行多轮对话，根据上下文生成并完善图像。
     
     Hunyuan-DiT是一个在潜在空间中的扩散模型。基于潜在扩散模型，使用预训练的变分自编码器（VAE）将图片压缩到低维度的潜在空间，并训练一个扩散模型来学习数据分布。我们的扩散模型是用transformer参数化的。为了编码文本提示，我们利用了预训练的双语（英语和中文）CLIP和多语言T5编码器的组合。混元DiT提供双语生成能力，中国元素理解具有优势。混元DiT能分析和理解长篇文本中的信息并生成相应艺术作品。混元DiT能捕捉文本中的细微之处，从而生成完美符合用户需要的图片。混元DiT可以在多轮对话中通过与用户持续协作，精炼并完善的创意构想。性能上超过SDXL，Playground 2.5等。
     
-* **KOLORS**：
+* **Kolors**：
 
   * 地址：https://github.com/Kwai-Kolors/Kolors ![](https://img.shields.io/github/stars/Kwai-Kolors/Kolors.svg)
 
   * 简介：在架构上，可图也是采用latent diffusion架构，基本沿用SDXL的模型设计，但是文本编码器采用了支持中英文双语的ChatGLM3-6B-Base，而且文本提示词的输入长度支持 256 tokens，这比77 tokens的CLIP要长得多。使用GLM也比采用CLIP有更强的文本理解能力，和DALL-E 3一样，可图也对训练数据集中的图像作了重打标来生成文本详细描述，这里采用的打标模型是开源模型中效果相对较好的CogVLM-1.1-chat，由于多模态大模型MLLMs无法识别图像中的特定的概念，所以训练过程中采用混合caption：50%用原始文本，50%用合成的文本，这和SD3的训练策略类似。此外，为了让可图支持写中文，这里也是专门构建了包含中文字的数据集，包括合成的数据以及通过OCR或者多模态大模型打标的数据集。在训练策略上，可图也是采用两阶段训练，首先是预训练阶段，技术报告里面叫concept learning，这个阶段就是从大量的文本图像对数据集上学习，让模型能够对文本有很强的理解能力。然后是微调阶段，通过构建高质量数据来提升图像质量和分辨率。
+
+* **AnyText2**：
+
+  * 地址：https://github.com/tyxsspa/AnyText2 ![](https://img.shields.io/github/stars/tyxsspa/AnyText2.svg) | [论文](https://arxiv.org/abs/2411.15245)
+
+  * 简介：基于 Stable Diffusion 1.5，以 WriteNet + AttnX 注入文字渲染能力，支持多语言文字生成与编辑，并可逐行控制字体和颜色。官方于 2025 年 3 月 1 日开放推理、训练、评测代码，以及模型权重和 AnyWord-3M 训练数据。
 
 * **UniT2IXL联通元景**：
 
   * 地址：https://github.com/UnicomAI/UniT2IXL ![](https://img.shields.io/github/stars/UnicomAI/UniT2IXL.svg)
 
   * 简介：联通元景（UniT2IXL）是中国联通AI推出的中文原生文生图模型，完全在国产昇腾AI基础软硬件平台上实现训练和推理。该模型采用复合语言编码模块，优化中文长文本和特色词汇理解，提升图像生成质量。联通元景基于预训练海量中文图文数据，减少信息损失，准确生成高质量图片。元景文生图模型支持国产全栈训推，适配自定义数据集，实现跨平台平滑切换。已在多个行业如文创、服装等领域应用，助力企业提效降本。复合语言编码模块：在SDXL架构中融合复合语言编码模块，替换英文CLIP模型为中文CLIP，增强中文短文本的理解能力。encoder-decoder架构：引入基于encoder-decoder架构的语言模型到语言编码器部分，支持超过CLIP长度限制的长文本输入。
-昇腾AI算力集群：在昇腾AI大规模算力集群上实现模型的训练和推理，提供强大的计算支持。接口与Diffusers对齐：模型推理接口与Diffusers对齐，简化使用流程，支持单卡和多卡推理，单卡推理支持UNet Cache加速。
+    昇腾AI算力集群：在昇腾AI大规模算力集群上实现模型的训练和推理，提供强大的计算支持。接口与Diffusers对齐：模型推理接口与Diffusers对齐，简化使用流程，支持单卡和多卡推理，单卡推理支持UNet Cache加速。
 
-* **Cogview4**：
+* **CogView4**：
 
-  * 地址：https://github.com/THUDM/CogView4 ![](https://img.shields.io/github/stars/THUDM/CogView4.svg)
+  * 地址：https://github.com/zai-org/CogView4 ![](https://img.shields.io/github/stars/zai-org/CogView4.svg)
 
-  * 简介：首个支持生成汉字的文生图模型，CogView4 在 DPG-Bench 基准测试中的综合评分排名第一，在开源文生图模型中达到 SOTA。DPG-Bench 基准测试是用来评估文生图模型的文本指令跟随能力，CogView4得分是85.13。将文本编码器从纯英文的 T5 encoder 换为具备双语能力的 GLM-4 encoder（GLM-4-9B），并通过中英双语图文进行训练，使模型具备双语提示词输入能力。这让CogView4能支持生成汉字，同时也能理解和遵循中文提示词。CogView4也是DiT架构，不过并非MMDiT架构，而是延续了上一代的 Share-param DiT 架构，这里Attention和FFN的参数是文本和图像共享的（比MMDiT更节省参数），但为文本和图像模态分别设计独立的自适应 LayerNorm 层，以实现模态间的高效适配。架构上和CogVideoX是一致的，DiT参数量约6.4B。生成方法采用Flow Matching，VAE的channel=16，不过参数量为406M，比SD3和Flux的VAE要大不少。文本编码器前面说了，采用的是9B的GLM-4-9B。CogView4支持生成512～2048分辨率图像。而且CogView4 突破了传统固定 token 长度的限制，允许更高的 token 上限（最长1024 tokens）。采用4bit的文本编码器的话，只需要13GB显存就能生成1024图像。
+  * 简介：CogView4 在 DPG-Bench 基准测试中的综合评分为 85.13。它将文本编码器从纯英文的 T5 encoder 换为具备双语能力的 GLM-4 encoder（GLM-4-9B），并通过中英双语图文进行训练，使模型具备双语提示词输入与汉字生成能力。CogView4 延续 Share-param DiT 架构，Attention 和 FFN 参数由文本、图像共享，并为两种模态分别设计自适应 LayerNorm；DiT 参数量约 6.4B，采用 Flow Matching，支持 512～2048 分辨率和最长 1024 tokens。采用 4-bit 文本编码器时，约需 13GB 显存生成 1024 分辨率图像。
 
 * **HiDream-I1**：
 
@@ -231,13 +241,13 @@ Awesome-Chinese-Stable-Diffusion
 
   * 地址：https://github.com/Wan-Video/Wan2.1 ![](https://img.shields.io/github/stars/Wan-Video/Wan2.1.svg)
 
-  * 简介：Wan2.1可以生图，采用交叉注意力来嵌入文本条件，为了进一步增强模型捕捉复杂动态的能力，加入了完整的时空注意力机制，有140亿参数，训练包括了数十亿图像和视频的大规模数据。开发数据有限考虑三个核心原则：高质量、高多样性和大规模。从内部版权来源和公开可访问的数据中采集并去重，预训练阶段，我们的目标是从这个庞大而噪杂的数据集中选择高质量和多样化的数据，以促进有效的训练，设计了一个四步数据清洗流程，重点关注基本维度、视觉质量和运动质量。Wan-VAE实现了仅127M参数的模型，遵循MagViT-v2，我们利用流匹配框架来建模图片和视频领域的统一去噪过程，首先在低分辨率图像行预训练，然后对图像和视频进行多阶段联合优化，umT5是文本嵌入序列，长度为512个标记。图像预训练：直接联合训练高分辨率图像和长时间视频序列的两个关键挑战：1.扩展序列长度，通常81帧的1280x720视频，显著降低了训练吞吐量；2.过高的GPU内存消耗迫使使用次优的bs，导致由于梯度方差的波动而引起的训练不稳定性；通过低分辨率256p的文本到图像预训练初始化14B模型训练，强制进行跨模态语义文本对齐和几何结构报站，然后逐步引入高分辨率视频模态。图像-视频联合训练：在大规模256p文本到图像预训练之后，通过分辨率渐进的方式实行图像和视频数据的分阶段联合训练，训练包括三个不同阶段，按分辨率区分：1.在第一阶段，使用256p的图像和5s的视频片段（192p,16fps）进行联合训练；2.在第二阶段，将图像和视频分辨率都升级到480p（会进行分辨率缩放），同时保持固定的5s视频时长，3.将图像和5s的视频片段的分辨率提升到720p。保持与预训练相同的模型架构和优化器配置，在480p和720p下，使用后训练数据集联合训练。
+  * 简介：Wan2.1可以生图，采用交叉注意力来嵌入文本条件，为了进一步增强模型捕捉复杂动态的能力，加入了完整的时空注意力机制，有140亿参数，训练包括了数十亿图像和视频的大规模数据。训练数据构建遵循三个核心原则：高质量、高多样性和大规模。从内部版权来源和公开可访问的数据中采集并去重，预训练阶段，我们的目标是从这个庞大而噪杂的数据集中选择高质量和多样化的数据，以促进有效的训练，设计了一个四步数据清洗流程，重点关注基本维度、视觉质量和运动质量。Wan-VAE实现了仅127M参数的模型，遵循MagViT-v2，我们利用流匹配框架来建模图片和视频领域的统一去噪过程，首先在低分辨率图像上预训练，然后对图像和视频进行多阶段联合优化，umT5是文本嵌入序列，长度为512个标记。图像预训练：直接联合训练高分辨率图像和长时间视频序列的两个关键挑战：1.扩展序列长度，通常81帧的1280x720视频，显著降低了训练吞吐量；2.过高的GPU内存消耗迫使使用次优的bs，导致由于梯度方差的波动而引起的训练不稳定性；通过低分辨率256p的文本到图像预训练初始化14B模型训练，强制进行跨模态语义文本对齐和几何结构表征，然后逐步引入高分辨率视频模态。图像-视频联合训练：在大规模256p文本到图像预训练之后，通过分辨率渐进的方式实行图像和视频数据的分阶段联合训练，训练包括三个不同阶段，按分辨率区分：1.在第一阶段，使用256p的图像和5s的视频片段（192p,16fps）进行联合训练；2.在第二阶段，将图像和视频分辨率都升级到480p（会进行分辨率缩放），同时保持固定的5s视频时长，3.将图像和5s的视频片段的分辨率提升到720p。保持与预训练相同的模型架构和优化器配置，在480p和720p下，使用后训练数据集联合训练。
 
 * **Wan2.2**：
 
   * 地址：https://github.com/Wan-Video/Wan2.2 ![](https://img.shields.io/github/stars/Wan-Video/Wan2.2.svg)
 
-  * 简介：Wan2.2可以生图，且效果由于Wan2.1。混合专家（MoE）架构：引入MoE架构，将模型分为高噪声专家和低噪声专家。高噪声专家负责视频的整体布局，低噪声专家负责细节完善。两个专家各约14B参数，总计27B，但每步仅激活14B，在保持计算成本不变的情况下，大幅提升模型的参数量和生成质量。扩散模型（Diffusion Model）：基于扩散模型作为基础架构，通过逐步去除噪声来生成高质量的视频内容。MoE架构与扩散模型结合，能进一步优化生成效果。高压缩率3D VAE：为提高模型的效率，通义万相2.2基于高压缩率的3D变分自编码器（VAE）。架构实现了时间、空间的高压缩比，让模型能在消费级显卡上快速生成高清视频。大规模数据训练：模型在大规模数据集上进行训练，包括更多的图像和视频数据，提升模型在多种场景下的泛化能力和生成质量。美学数据标注：基于精心标注的美学数据（如光影、色彩、构图等），模型能生成具有专业电影质感的视频内容，满足用户对视频美学的定制需求。
+  * 简介：Wan2.2可以生图，且效果优于Wan2.1。混合专家（MoE）架构：引入MoE架构，将模型分为高噪声专家和低噪声专家。高噪声专家负责视频的整体布局，低噪声专家负责细节完善。两个专家各约14B参数，总计27B，但每步仅激活14B，在保持计算成本不变的情况下，大幅提升模型的参数量和生成质量。扩散模型（Diffusion Model）：基于扩散模型作为基础架构，通过逐步去除噪声来生成高质量的视频内容。MoE架构与扩散模型结合，能进一步优化生成效果。高压缩率3D VAE：为提高模型的效率，通义万相2.2基于高压缩率的3D变分自编码器（VAE）。架构实现了时间、空间的高压缩比，让模型能在消费级显卡上快速生成高清视频。大规模数据训练：模型在大规模数据集上进行训练，包括更多的图像和视频数据，提升模型在多种场景下的泛化能力和生成质量。美学数据标注：基于精心标注的美学数据（如光影、色彩、构图等），模型能生成具有专业电影质感的视频内容，满足用户对视频美学的定制需求。
 
 * **Hunyuan2.1**：
 
@@ -249,7 +259,7 @@ Awesome-Chinese-Stable-Diffusion
 
   * 地址：https://github.com/Tencent-Hunyuan/HunyuanImage-3.0 ![](https://img.shields.io/github/stars/Tencent-Hunyuan/HunyuanImage-3.0.svg)
 
-  * 简介：混元图像3.0是首个开源的工业级原生多模态图像生成模型，这里的工业级说的是效果能达到可用的地步，之前学术界其实也有很多开源的原生多模态生图模型，但是效果上其实都不算很好。此外，这个模型是80B的MoE模型（13B激活参数），也是目前参数量最大的开源生图模型。HunyuanImage-3.0 是一个突破性的原生多模态模型，它在一个自回归框架内统一了多模态理解和生成。我们的文本到图像模块实现了与领先闭源模型相当或超越的性能。统一多模态架构：超越流行的基于 DiT 的架构，HunyuanImage-3.0 采用统一的自回归框架。这种设计能够更直接和集成地建模文本和图像模态，从而实现令人惊讶的有效且具有丰富上下文的图像生成。最大图像生成 MoE 模型：这是迄今为止最大的开源图像生成专家混合（MoE）模型。它拥有 64 个专家，总参数量达 800 亿，每个 token 激活参数达 130 亿，显著提升了其容量和性能。卓越的图像生成性能：通过严格的数集筛选和先进的强化学习后训练，我们在语义准确性和视觉卓越性之间实现了最佳平衡。该模型在遵循提示方面表现出色，同时提供具有惊人美学质量和细粒度细节的逼真图像。 智能世界知识推理：统一的跨模态架构赋予 HunyuanImage-3.0 强大的推理能力。它利用其丰富的世界知识智能地理解用户意图，自动用恰当的上下文细节补充稀疏提示，以生成更优质、更完整的视觉输出。
+  * 简介：混元图像3.0是首个开源的工业级原生多模态图像生成模型，这里的工业级说的是效果能达到可用的地步，之前学术界其实也有很多开源的原生多模态生图模型，但是效果上其实都不算很好。此外，这个模型是80B的MoE模型（13B激活参数），也是目前参数量最大的开源生图模型。HunyuanImage-3.0 是一个突破性的原生多模态模型，它在一个自回归框架内统一了多模态理解和生成。我们的文本到图像模块实现了与领先闭源模型相当或超越的性能。统一多模态架构：超越流行的基于 DiT 的架构，HunyuanImage-3.0 采用统一的自回归框架。这种设计能够更直接和集成地建模文本和图像模态，从而实现令人惊讶的有效且具有丰富上下文的图像生成。最大图像生成 MoE 模型：这是迄今为止最大的开源图像生成专家混合（MoE）模型。它拥有 64 个专家，总参数量达 800 亿，每个 token 激活参数达 130 亿，显著提升了其容量和性能。卓越的图像生成性能：通过严格的数据集筛选和先进的强化学习后训练，我们在语义准确性和视觉卓越性之间实现了最佳平衡。该模型在遵循提示方面表现出色，同时提供具有惊人美学质量和细粒度细节的逼真图像。 智能世界知识推理：统一的跨模态架构赋予 HunyuanImage-3.0 强大的推理能力。它利用其丰富的世界知识智能地理解用户意图，自动用恰当的上下文细节补充稀疏提示，以生成更优质、更完整的视觉输出。
 
     **更新**：2026年1月26日，腾讯发布了HunyuanImage-3.0-Instruct及其蒸馏版本HunyuanImage-3.0-Instruct-Distil。Instruct版本引入了Chain-of-Thoughts推理能力，支持指令驱动的图像生成和编辑。截至2026年7月5日，Hunyuan Image 3.0在LM Arena Text-to-Image Overall排行榜上排名第24位（Elo 1151±3）。
 
@@ -257,23 +267,23 @@ Awesome-Chinese-Stable-Diffusion
 
   * 地址：https://github.com/Tongyi-MAI/Z-Image ![](https://img.shields.io/github/stars/Tongyi-MAI/Z-Image.svg)
 
-  * 简介：采用了一种可扩展的单流数字图像处理 （S3-DiT）架构。在该架构中，文本、视觉语义标记和图像 VAE 标记在序列级别上连接起来，作为统一的输入流，与双流方法相比，最大限度地提高了参数效率。Decoupled-DMD：Z-Image背后的加速魔力，Decoupled-DMD 是赋能 8 步 Z-Image 模型的核心少步蒸馏算法。团队在 Decoupled-DMD 中的核心洞察是，现有分布匹配蒸馏（Distributaion Matching Distillation，DMD）方法的成功来源于两个独立且协作的机制：CFG 增强：驱动蒸馏过程的主要引擎 ，这是以前工作中大多被忽视的因素。分布匹配：更像是一种正则化器 ，确保生成结果的稳定性和质量。通过识别并解耦这两个机制，能够独立地研究和优化它们。这最终促使团队开发出了一种改进的蒸馏流程，大幅提升了少步生成的性能。在Decoupled-DMD 基础上，8 步 Z-Image 模型已经展示了卓越的能力。为了在语义对齐、美学质量和结构一致性方面实现进一步提升，同时生成具有更丰富高频细节的图像，团队提出了 DMDR。DMDR 的核心洞见是，强化学习（RL）与分布匹配蒸馏（DMD）可以在少步模型的后训练阶段协同整合。团队展示了：1. RL 解锁了 DMD 的性能，2. DMD 有效规范了 RL。Z-Image-Turbo —— Z-Image 的蒸馏轻量版，仅使用 8 步即可达到或超越主流竞品性能。它在企业级 H800 GPU 上可实现亚秒级推理速度⚡️，并能轻松运行于 16G显存的消费级设备。该模型在 照片级写实生成、中英双语文字渲染，以及指令遵循方面表现突出。
+  * 简介：采用了一种可扩展的单流数字图像处理 （S3-DiT）架构。在该架构中，文本、视觉语义标记和图像 VAE 标记在序列级别上连接起来，作为统一的输入流，与双流方法相比，最大限度地提高了参数效率。Decoupled-DMD：Z-Image背后的加速魔力，Decoupled-DMD 是赋能 8 步 Z-Image 模型的核心少步蒸馏算法。团队在 Decoupled-DMD 中的核心洞察是，现有分布匹配蒸馏（Distribution Matching Distillation，DMD）方法的成功来源于两个独立且协作的机制：CFG 增强：驱动蒸馏过程的主要引擎 ，这是以前工作中大多被忽视的因素。分布匹配：更像是一种正则化器 ，确保生成结果的稳定性和质量。通过识别并解耦这两个机制，能够独立地研究和优化它们。这最终促使团队开发出了一种改进的蒸馏流程，大幅提升了少步生成的性能。在Decoupled-DMD 基础上，8 步 Z-Image 模型已经展示了卓越的能力。为了在语义对齐、美学质量和结构一致性方面实现进一步提升，同时生成具有更丰富高频细节的图像，团队提出了 DMDR。DMDR 的核心洞见是，强化学习（RL）与分布匹配蒸馏（DMD）可以在少步模型的后训练阶段协同整合。团队展示了：1. RL 解锁了 DMD 的性能，2. DMD 有效规范了 RL。Z-Image-Turbo —— Z-Image 的蒸馏轻量版，仅使用 8 步即可达到或超越主流竞品性能。它在企业级 H800 GPU 上可实现亚秒级推理速度⚡️，并能轻松运行于 16G显存的消费级设备。该模型在照片级写实生成、中英双语文字渲染，以及指令遵循方面表现突出。
 
     **更新**：官方模型族包含Z-Image-Turbo、Z-Image、Z-Image-Omni-Base和Z-Image-Edit等版本。Z-Image-Turbo是8步蒸馏版本，面向快速高质量文生图；Z-Image是Turbo背后的基础生成模型，支持负提示词、创意生成、微调和下游开发；Z-Image-Omni-Base定位为兼具生成和编辑能力的原始基础模型；Z-Image-Edit是面向图像编辑的微调版本。截至2026年7月，官方Model Zoo中Z-Image与Z-Image-Turbo已提供权重，Z-Image-Omni-Base与Z-Image-Edit仍标注为待发布。
 
 * **Ovis-Image**：
 
-  * 地址：https://github.com/AIDC-AI/Ovis-Image ![](https://img.shields.io/github/stars/AIDC-AI/Ovis-Image.svg)
+  * 地址：https://github.com/ATH-MaaS/Ovis-Image ![](https://img.shields.io/github/stars/ATH-MaaS/Ovis-Image.svg)
 
-  * 简介：Ovis-Image 是基于 Ovis-U1 构建的 7B 文本到图像模型，专门针对高质量文本渲染进行了优化，旨在在严格的计算约束下高效运行。Ovis-Image基于Ovis-U1构建，通过增加MMDiT的参数并优化结构设计，采用以文本为核心的训练流程，采用大规模预训练与精心设计的后训练优化。Ovis-Image采用预训练+后训练，后训练有三个阶段：SFT+DPO+GRPO。在文本渲染基准测试CVTG-2K上，Ovis-Image达到了最先进的水平，超越了Qwen-Image和GPT4o。在中文长文本渲染（LongText-Bench-ZN）方面，Ovis-Image取得了最高的成绩。Ovis-Image 是一款 70 亿级文本到图像模型，其文本渲染质量可与 Qwen-Image 等规模更大的 200 亿级系统相媲美，并且在以文本为中心的场景中可与 GPT4o 等领先的闭源模型相媲美，同时体积足够小，可在广泛可用的硬件上运行。对于文本密集、布局敏感的提示，该模型表现出色 ：对于需要语言内容与渲染排版紧密对齐的提示（例如海报、横幅、徽标、UI 模型、信息图），该模型能够生成清晰易读、拼写正确且语义一致的文本，适用于各种字体、大小和宽高比，而不会影响整体视觉质量。
+  * 简介：Ovis-Image 是基于 Ovis-U1 构建的 7B 文本到图像模型，专门针对高质量文本渲染进行了优化。模型采用 MMDiT 和以文本为核心的训练流程，后训练包括 SFT、DPO 与 GRPO。在官方报告的 LongText-Bench-ZH 中文长文本评测中表现突出，并面向海报、横幅、徽标、UI 模型和信息图等文本密集、布局敏感的场景优化。
 
 * **LongCat-Image**：
 
   * 地址：https://github.com/meituan-longcat/LongCat-Image ![](https://img.shields.io/github/stars/meituan-longcat/LongCat-Image.svg)
 
-  * 简介：LongCat-Image具备出色的跨语言图像编辑能力，通过共享 MM-DiT+Single-DiT 混合主干架构与VLM条件编码器，文生图与编辑能力相互辅助，继承文生图的出图质量并具备出色的指令遵循、一致性保持能力，在主流公开评测基准上达到第一梯队水平。文字生成专项能力上，覆盖全量通用规范汉字并在在商业海报、自然场景文字上都展现出极强的适用性。此外，通过精细化模型设计及多阶段训练策略优化，极大提升生成真实度、合理性并可支持消费级显卡高效推理。图像编辑：ImgEdit 得分 4.50（开源 SOTA），GEdit 中/英 7.60 / 7.64，接近商业模型；文字渲染：ChineseWord 分数 90.7，超越所有竞品；文生图：GenEval 0.87、DPG 86.8，达到开源/闭源顶级模型水平。
+  * 简介：LongCat-Image具备出色的跨语言图像编辑能力，通过共享 MM-DiT+Single-DiT 混合主干架构与VLM条件编码器，文生图与编辑能力相互辅助，继承文生图的出图质量并具备出色的指令遵循、一致性保持能力，在主流公开评测基准上达到第一梯队水平。文字生成专项能力上，覆盖全量通用规范汉字并在商业海报、自然场景文字上都展现出极强的适用性。此外，通过精细化模型设计及多阶段训练策略优化，极大提升生成真实度、合理性并可支持消费级显卡高效推理。图像编辑：ImgEdit 得分 4.50（开源 SOTA），GEdit 中/英 7.60 / 7.64，接近商业模型；文字渲染：ChineseWord 分数 90.7，超越所有竞品；文生图：GenEval 0.87、DPG 86.8，达到开源/闭源顶级模型水平。
 
-* **Flux2**：
+* **FLUX.2**：
 
   * 地址：https://github.com/black-forest-labs/flux2 ![](https://img.shields.io/github/stars/black-forest-labs/flux2.svg)
 
@@ -283,7 +293,7 @@ Awesome-Chinese-Stable-Diffusion
 
   * 地址：https://github.com/zai-org/GLM-Image ![](https://img.shields.io/github/stars/zai-org/GLM-Image.svg)
 
-  * 简介：首个开源的，国产链路训练的工业表现级离散自回归图像生成模型，是面向认知型生成技术范式的一次尝试，在文字生成得SOTA成就。整个模型可以拆成两大块： Autoregressive（AR）模块：负责生成离散视觉 token。AR 模块本质上是个多模态理解 + 生成系统，包含 GLM-4-0414-9B 结构的语言模型, X-Omni-En 的 ViT 和 VQVAE。在原词表前面新增了16512个视觉 token，这也是这个模型lm head的大小，AR的输出结果不是直接出图，而是先产出一串离散视觉 token，然后把它们交给后面的 DiT 当输入。 Diffusion Decoder 模块：负责把 token 变成高质量图像，包含 DiT（Diffusion Transformer）Glyph + VAE，这里和去年发布的 CogView4 相似，是经典的Diffusion结构。不管多少张图以及什么比例，AR 这边的 ViT 会先把参考图编码成 Image Token （参考 GLM-V 类似的处理），这些 token 不仅给AR 用，也会复用到 DiT 里作为 condition_token（条件输入），让生成更贴着参考图走。
+  * 简介：首个开源的，国产链路训练的工业表现级离散自回归图像生成模型，是面向认知型生成技术范式的一次尝试，在文字生成上取得 SOTA 成绩。整个模型可以拆成两大块： Autoregressive（AR）模块：负责生成离散视觉 token。AR 模块本质上是个多模态理解 + 生成系统，包含 GLM-4-0414-9B 结构的语言模型, X-Omni-En 的 ViT 和 VQVAE。在原词表前面新增了16512个视觉 token，这也是这个模型lm head的大小，AR的输出结果不是直接出图，而是先产出一串离散视觉 token，然后把它们交给后面的 DiT 当输入。 Diffusion Decoder 模块：负责把 token 变成高质量图像，包含 DiT（Diffusion Transformer）Glyph + VAE，这里和去年发布的 CogView4 相似，是经典的Diffusion结构。不管多少张图以及什么比例，AR 这边的 ViT 会先把参考图编码成 Image Token （参考 GLM-V 类似的处理），这些 token 不仅给AR 用，也会复用到 DiT 里作为 condition_token（条件输入），让生成更贴着参考图走。
     
 
 * **Qwen-Image-2512**：
@@ -298,21 +308,9 @@ Awesome-Chinese-Stable-Diffusion
 
   * 简介：Qwen-Image-Layered是阿里于2025年12月发布的创新模型，能够将单张图像分解为多个语义解耦的RGBA图层，实现类似Photoshop的内在可编辑性。用户可以对生成图像的不同元素（前景、背景、文字等）进行独立编辑和调整，大幅提升了文生图模型在设计工作流中的实用性。
 
-* **Qwen-Image-2.0**：
-
-  * 地址：https://github.com/QwenLM/Qwen-Image
-
-  * 简介：Qwen-Image-2.0是阿里于2026年2月10日发布的文生图模型，是Qwen-Image系列的重大升级。该模型统一了图像生成和编辑能力，支持专业排版渲染（PPT幻灯片、海报、漫画等），可处理最长1000个tokens的复杂文本输入，原生支持2K分辨率输出。相比前代，Qwen-Image-2.0在排版设计、信息图生成、多语言文字渲染等方面有显著提升，同时采用了更轻量的架构设计。
-
-* **Qwen-Image-2.0-RL**：
-
-  * 地址：https://arxiv.org/abs/2606.27608
-
-  * 简介：Qwen-Image-2.0-RL是Qwen团队于2026年6月25日公开的强化学习后训练技术报告，面向Qwen-Image-2.0构建了覆盖文生图和图像编辑任务的奖励模型体系，并结合GRPO训练、混合CFG策略、提示词筛选与on-policy distillation（OPD）合并多任务策略。报告显示，该方法在Qwen-Image-Bench上取得57.84综合分，相比基础模型提升2.61；在文生图竞技场中Elo达到1193（+78），在图像编辑竞技场中Elo达到1349（+93），主要提升美学质量、指令遵循和编辑准确性。
-
 * **BAGEL-7B-MoT**：
 
-  * 地址：https://github.com/ByteDance-Seed/BAGEL ![](https://img.shields.io/github/stars/ByteDance-Seed/BAGEL.svg)
+  * 地址：https://github.com/ByteDance-Seed/Bagel ![](https://img.shields.io/github/stars/ByteDance-Seed/Bagel.svg)
 
   * 简介：BAGEL-7B-MoT是字节跳动Seed团队于2025年5月发布的统一多模态基础模型，总参数量14B，激活参数7B。该模型采用Mixture-of-Transformer（MoT）架构，在单一模型中统一了文生图生成（效果可与SD3竞争）、图像编辑和多模态理解三大能力。在LM Arena文生图排行榜上有排名。BAGEL的创新之处在于将理解和生成能力融合在同一个模型中，无需为不同任务切换模型。
 
@@ -329,17 +327,19 @@ Awesome-Chinese-Stable-Diffusion
 
   * 简介：NextStep-1是阶跃星辰（StepFun）于2025年8月发布的14B自回归文生图模型，获得**ICLR 2026 Oral**，训练代码和NextStep-1.1后训练版本于2026年2月16日开源。该模型采用自回归语言模型架构处理连续图像token，创新性地使用标准LM head处理离散文本token、轻量级Flow Matching head（157M）处理连续视觉token，通过新型自编码器将图像编码为patchwise连续latent token。NextStep-1在DPG-Bench上达到85.28分，支持文生图和图像编辑（物体增删、背景替换、风格迁移）。该模型代表了自回归范式在文生图领域的前沿探索。
 
-* **Step-Image-Edit-2**：
-
-  * 地址：https://github.com/stepfun-ai/Step1X-Edit ![](https://img.shields.io/github/stars/stepfun-ai/Step1X-Edit.svg)
-
-  * 简介：Step-Image-Edit-2是阶跃星辰（StepFun）于2026年4月29日发布的3.5B轻量级统一文生图与图像编辑模型，是Step1X-Edit（19B）的后继版本。该模型以仅3.5B的参数量在KRIS-Bench指令编辑基准上排名第一（事实类和概念类），超越了多个12B-20B量级模型。支持中英文文字渲染、局部编辑、风格迁移、主体一致性等能力，单图推理延迟仅0.5-2秒。训练数据超5000万样本，其中2000万为文字编辑专用数据。
-
 * **Boogu-Image-0.1**：
 
   * 地址：https://github.com/boogu-project/Boogu-Image ![](https://img.shields.io/github/stars/boogu-project/Boogu-Image.svg)
 
   * 简介：Boogu-Image-0.1是Boogu Project于2026年6月16日发布的10B开源文生图与图像编辑统一模型家族（Apache-2.0许可证），包含Base（基础生成模型，25-50步推理，强调多样性和可控性）、Turbo（3-4步蒸馏版，基于Decoupled DMD加速，面向快速推理和照片级真实感）、Edit（图像编辑与变换）和Edit-Turbo（四步蒸馏编辑版）等变体。文本编码器采用Qwen3-VL-8B-Instruct，VAE复用开源FLUX.1 VAE，支持1K和2K分辨率输出。该模型支持中英双语文字渲染，擅长海报、印章、文档界面、品牌指南等场景的超密集文字生成，并提供FP8量化版本以降低部署门槛。2026年6月30日，官方发布Boogu-Image-0.1-Edit-Turbo；2026年7月8日发布Edit-Turbo hotfix，修复前一版本问题并提供1K/1.5K检查点。
+
+    **技术报告更新**：官方于 2026 年 7 月 16 日发布[技术报告](https://arxiv.org/abs/2607.13125)（arXiv 首次提交于 7 月 14 日），披露训练使用 208.62M 张去重图像，Base 的理论训练成本约 40 万美元，并以 Apache-2.0 开放代码、权重与训练 recipes。
+
+* **JoyAI-Image / Edit**：
+
+  * 地址：https://github.com/jd-opensource/JoyAI-Image ![](https://img.shields.io/github/stars/jd-opensource/JoyAI-Image.svg) | [论文](https://arxiv.org/abs/2605.04128)
+
+  * 简介：京东开源的统一视觉模型，采用 8B MLLM 与 16B MMDiT，覆盖图像理解、文生图和指令编辑，重点强化空间关系、视角与物体控制、长文本排版和多图编辑。目前已开放理解模型、单图 Edit 与多图 Edit-Plus 权重及推理代码（Apache-2.0）；2026 年 7 月 17 日，Edit 与 Edit-Plus 新增原生 ComfyUI 支持。
 
 * **ERNIE-Image / 文心 ERNIE-Image**：
 
@@ -347,25 +347,25 @@ Awesome-Chinese-Stable-Diffusion
 
   * 简介：百度文心于 2026 年 4 月 15 日开源的 8B 单流 DiT 中文文生图模型，以 Apache-2.0 许可证发布。文本编码器基于 ERNIE LLM，并搭配轻量 Prompt Enhancer 与 iRAG 检索增强，实现强中英双语理解与 2K 高清生成。当前在 8B 量级开源模型中**中英双语图内文字渲染**与多面板漫画生成能力领先。同期还放出了 8 步采样的 **ERNIE-Image-Turbo** 蒸馏版（[huggingface.co/baidu/ERNIE-Image-Turbo](https://huggingface.co/baidu/ERNIE-Image-Turbo)），延迟优化场景的同源伴侣模型。
 
-* **JuZhou 1.0**：
-
-  * 地址：https://arxiv.org/abs/2606.28421
-
-  * 简介：JuZhou 1.0是2026年6月25日提交、2026年7月8日修订的端侧中文文生图技术报告，定位为离线、端侧运行的超轻量文生图基础模型。模型由0.385B参数去噪UNet和1.90M参数蒸馏解码器组成，总规模约0.387B；训练采用Rectified Flow并结合DMD2蒸馏，将推理减少到4步；中文语义对齐阶段使用900万精选图文对，使模型可直接接受中文提示词而无需外部翻译。报告还强调训练与蒸馏均在国产曙光K100 AI加速器上完成，并在Android和iOS端验证了移动端部署能力。
-
 ### 1.3 闭源模型
 
 * **Wan2.7-Image / Wan2.7-Image-Pro**：
 
-  * 地址：https://github.com/Wan-Video/Wan2.1
+  * 地址：https://help.aliyun.com/zh/model-studio/wan-image-generation-and-editing-api-reference
 
-  * 简介：Wan2.7-Image是阿里通义万相于2026年4月1日发布的图像生成与编辑统一架构模型，相比前代实现了重大跨越。基础版Wan2.7-Image面向通用场景，Pro版本具备内置推理模式（Thinking Mode）并支持4K级别文生图，原生支持4096×4096分辨率输出，达到印刷级图像质量。文本编码方面支持12种语言，最长可处理3000 tokens的复杂提示词，能够清晰渲染学术公式、表格等结构化内容。整个Wan2.7套件包含多个API端点，覆盖从标准到专业级的图像生成与编辑场景。截至2026年7月5日，Wan2.7-Image-Pro和Wan2.7-Image在LM Arena Text-to-Image Overall排行榜上分别排名第44位（Elo 1102±5）和第45位（Elo 1099±5）。
+  * 简介：阿里云百炼提供的闭源图像生成与编辑模型，覆盖文生图、图像编辑、多图参考和组图生成。标准版支持最高 2K；Pro 版仅在单张文生图场景支持 4K（4096×4096），图像编辑与组图生成仍最高为 2K。
+
+* **Qwen-Image-2.0**：
+
+  * 地址：https://qwen.ai/blog?id=qwen-image-2.0
+
+  * 简介：Qwen 团队于 2026 年 2 月 10 日发布的闭源图像生成与编辑模型，支持专业排版渲染（PPT、海报和漫画等）、最长 1000 tokens 的复杂输入和原生 2K 输出。目前官方未公开对应模型权重。
 
 * **Qwen-Image-2.0-Pro**：
 
   * 地址：https://qwen.ai/blog?id=a6f483777144685d33cd3d2af95136fcbeb57652
 
-  * 简介：Qwen-Image-2.0-Pro是阿里Qwen团队于2026年4月22日发布的Qwen-Image-2.0增强版本。截至2026年7月5日，qwen-image-2.0-pro-2026-06-22在LM Arena Text-to-Image Overall排行榜上排名第12位（Elo 1193±8）。相比基础版Qwen-Image-2.0，Pro版本在排版渲染、细节保真度和复杂提示理解上均有显著提升，进一步巩固了Qwen系列在双语文生图与图像编辑统一场景下的高水平表现。模型仍延续20B MMDiT架构和Qwen2.5-VL-7B文本编码器。
+  * 简介：Qwen-Image-2.0-Pro是阿里Qwen团队于2026年4月22日发布的Qwen-Image-2.0增强版本。截至2026年7月5日，qwen-image-2.0-pro-2026-06-22在LM Arena Text-to-Image Overall排行榜上排名第12位（Elo 1193±8）。相比基础版Qwen-Image-2.0，Pro版本在排版渲染、细节保真度和复杂提示理解上均有显著提升。
 
 * **腾讯混元**：
   * 地址：https://mp.weixin.qq.com/s/hEqVR89qDyMckld-OikDPQ
@@ -373,7 +373,7 @@ Awesome-Chinese-Stable-Diffusion
 
     1、在语义理解方面，腾讯混元采用了中英文双语细粒度的模型，模型同时建模中英文实现双语理解，而不是通过翻译，通过优化算法提升了模型对细节的感知能力与生成效果，有效避免多文化差异下的理解错误。
 
-    2、在内容合理性方面，AI生成人体结构和手部经常容易变形。混元文生图通过增强算法模型的图像二维空间位置感知能力，并讲人体骨架和人手结构等先验信息引入到生成过程中，让生成的图像结构更合理，减少错误率。
+    2、在内容合理性方面，AI生成人体结构和手部经常容易变形。混元文生图通过增强算法模型的图像二维空间位置感知能力，并将人体骨架和人手结构等先验信息引入到生成过程中，让生成的图像结构更合理，减少错误率。
 
     3、在画面质感方面，混元文生图基于多模型融合的方法，提升生成质感。经过模型算法的优化之后，混元文生图的人像模型，包含发丝、皱纹等细节的效果提升了30%，场景模型，包含草木、波纹等细节的效果提升了25%。
 
@@ -386,11 +386,11 @@ Awesome-Chinese-Stable-Diffusion
 
   * 简介：丹青模型基于原生中文语料数据及网易自有高质量图片数据训练，与其他文生图模型相比，丹青模型的差异化优势在于对中文的理解能力更强，对中华传统美食、成语、俗语、诗句的理解和生成更为准确。比如，丹青模型生成的图片中，鱼香肉丝没有鱼，红烧狮子头没有狮子。基于对中文场景的理解，丹青模型生成的图片更具东方美学，能生成“飞流直下三千尺”的水墨画，也能生成符合东方审美的古典美人。
 
-    基于数据集和理解模型，网易伏羲对图文生成算法进行重构，依托于扩散模型的原理，在广泛的（8 亿）图文数据上训练以达到较好的生成结果。具体来说，丹青模型侧重文本与图片的交互，强化了在文图引导部分的参数作用，能够让文本更好地引导图片的生成，因此生成的结果也更加贴近用户意图。同时，丹青模型进行了图片多尺度的训练，充分考虑图片的不同尺寸和清晰度问题，将不同尺寸和分辨率的图片进行分桶。在充分保证训练图片训练的不失真的前提下，保留尽可能多的信息，适应不同分辨率的生成。
+    基于数据集和理解模型，网易伏羲对图文生成算法进行重构，依托于扩散模型的原理，在广泛的（8 亿）图文数据上训练以达到较好的生成结果。具体来说，丹青模型侧重文本与图片的交互，强化了在文图引导部分的参数作用，能够让文本更好地引导图片的生成，因此生成的结果也更加贴近用户意图。同时，丹青模型进行了图片多尺度的训练，充分考虑图片的不同尺寸和清晰度问题，将不同尺寸和分辨率的图片进行分桶。在充分保证训练图片不失真的前提下，保留尽可能多的信息，适应不同分辨率的生成。
 
     在数据策略方面，丹青模型在初始阶段使用亿级别的广泛分布的数据，不仅在语义理解上具有广泛性，可以很好地理解一些成语、古文诗句，在生成的画风上也具有多样性，可以生成多种风格。在之后的阶段，丹青模型分别从图文关联度、图片清晰度、图片美观度等多个层面进行数据筛选，以优化生成能力，生成高质量图片。
 
-    此外，丹青模型在训练和生成阶段还引入了人工反馈。在训练阶段，人工从多个维度的评估，筛选出来大批高质量图文匹配、高美观度数据，以补足自动流程缺失能力，帮助基础模型获得更好的效果；在生成阶段，人工对模型的语义生成能力和图片美观度进行评分，筛选出大批量优质生成的结果，引入模型当做正反馈，实现数据闭环。
+    此外，丹青模型在训练和生成阶段还引入了人工反馈。在训练阶段，人工从多个维度进行评估，筛选出大批高质量图文匹配、高美观度数据，以补足自动流程缺失能力，帮助基础模型获得更好的效果；在生成阶段，人工对模型的语义生成能力和图片美观度进行评分，筛选出大批量优质生成结果，将其作为正反馈引入模型训练，实现数据闭环。
 
 * **腾讯太极**：
 
@@ -406,18 +406,6 @@ Awesome-Chinese-Stable-Diffusion
 
     2.太极-sd文生图模型：在中文场景的SD训练中，一方面对文本编码器进行了替换，将其从原生的CLIP替换为自研的中文太极-ImageCLIP图文匹配模型，并且在训练过程中，优先对文本encoder部分进行训练，以保留SD预训练模型的生成能力；另一方面，为了提升模型对于文本内语义，数量，实体等不同方面的捕捉能力，我们综合了太极-ImageCLIP和混元-Sandwich两类不同的中文encoder所生成的embedding，来指导图片的生成；最后，为了更好的捕捉长文本的信息，我们还将池化后的文本embedding也融合进u-net中，提升整体的生成效果。
 
-* **快手可画Kolors**：
-
-  * 地址：https://www.51cto.com/article/767164.html
-
-  * 简介：它有着三大突出特点：强大的文本理解、丰富的细节刻画，以及多样的风格转化。
-
-    首先，强大的文本理解能力。快手AI构建了数十亿的图文训练数据,数据来自开源社区、内部构建和自研AI技术合成。这些数据覆盖了常见的三千万中文实体概念,兼具世界知识。在此基础上训练研发了一个强大的中文CLIP模型，不仅懂我们的语言，也更懂中文世界的图像；其次,快手AI利用自研的中文LLM，融合CLIP的图文特征作为文生图的文本理解模块，不但实现了中文特色概念的理解,更解决了复杂概念、属性混淆等文生图领域常见问题。
-
-    其次，丰富的细节刻画。快手AI研究团队更改了去噪算法的底层公式和加噪公式；同时精选了一批高细节、高美感的优质数据，在模型学习的后期进行有侧重学习。实现了单一基座模型在主体完整的前提下，可生成具有丰富细节和纹理的图片。同时，基座模型也实现了输入图片，输出细节丰富图片的图生图能力。
-
-    第三,多样的风格转化。可图大模型具有基于Prompt的自动学习模型，基于知识的理解与扩充，为用户提供不同的风格模版。依据提示词自动扩充模块，可以丰富化用户描述,包括风格、构图、视觉要素等。配合强大的文生图基座模型，Kolors 可以帮助用户准确理解自己的需求，通过简单描述即可生成多样化风格的图片。
-
 * **阿里通义万相**：
 
   * 地址：https://www.jiqizhixin.com/articles/2023-07-07-6
@@ -428,15 +416,15 @@ Awesome-Chinese-Stable-Diffusion
     
     正是基于 Composer 框架，通义万相才能让我们体验到相似图生成和风格迁移这两种图生图功能。一边用图像理解模型将图像拆解为不同元素，一边用扩散模型将这些元素重新组合成新图像，双管齐下，图生图水到渠成。其中对于相似图生成，保持图像语义内容不变，仅仅改变图像中的局部细节，就能生成相似图片。过程中既可以较好地保持原图主体一致性，还提升了生成图的多样性和质量。对于风格迁移，一方面保留原图的基本形态、结构，另一方面将目标风格图片的风格、色彩、笔触等个性化信息，最终实现风格迁移。
 
-* **快手可图Kling Image 3.0**：
+* **快手可灵 Kling Image 3.0**：
 
   * 地址：https://klingai.com
   
-  * 简介：快手于2026年2月5日发布的Kling Image 3.0，是可图系列文生图模型的重大升级。该模型引入了视觉思维链（Visual Chain-of-Thought, VCoT）推理机制，在生成图像前先进行视觉规划推理，显著提升了复杂场景的语义理解和构图合理性。Kling Image 3.0原生支持2K和4K超高清分辨率输出，支持最多10张参考图输入，可生成具有一致风格和叙事连贯性的系列图像。Omni变体进一步支持多语言/方言音频生成。该模型目前通过Kling AI平台以商业API形式提供。
+  * 简介：快手于2026年2月5日发布的Kling Image 3.0，是可灵系列文生图模型的重大升级。该模型引入了视觉思维链（Visual Chain-of-Thought, VCoT）推理机制，在生成图像前先进行视觉规划推理，显著提升了复杂场景的语义理解和构图合理性。Kling Image 3.0原生支持2K和4K超高清分辨率输出，支持最多10张参考图输入，可生成具有一致风格和叙事连贯性的系列图像。该模型目前通过Kling AI平台以商业API形式提供。
 
 * **字节Seedream系列**：
 
-  * 地址：https://team.doubao.com/zh/tech/seedream
+  * 地址：https://seed.bytedance.com/zh/seedream5_0_pro | [官方发布博客](https://seed.bytedance.com/zh/blog/beyond-generation-it-understands-design-introducing-seedream-5-0-pro)
 
   * 简介：Seedream是字节跳动的文生图大模型系列，已迭代多个重要版本：
 
@@ -446,11 +434,22 @@ Awesome-Chinese-Stable-Diffusion
 
     **Seedream 4.5**（2025年底）：改进了主体一致性、参考细节保持和排版保真度，支持批量输入/输出。截至2026年7月5日，在LM Arena Text-to-Image Overall排行榜上排名第28位（Elo 1146±3）。
 
-    **Seedream 5.0 / 5.0 Lite**（2026 年 2 月 10 日 / 13 日）：首次引入"深度思考"（deep-thinking）规划器，将 MLLM 与 DiT 统一在一个推理流水里，支持图内文字 100+ 语种渲染、最多 14 张参考图、原生 3K 分辨率、并接入实时网页搜索做世界知识对齐。已上线剪映（国内）、CapCut（海外）和小云雀 AI 平台。Lite 版本对应延迟优化场景的同源精简模型；截至2026年7月5日，Seedream-5.0-Lite在LM Arena Text-to-Image Overall排行榜上排名第31位（Elo 1133±4）。
+    **Seedream 5.0 Pro**（2026 年 7 月 8 日）：面向专业设计的闭源多模态图像创作模型，支持高密度信息图的逻辑推理与版面规划、点选/圈选/草图等精确局部编辑、图层拆分、多图融合和真实感增强，并支持十余种常用语言的输入与文字生成。
 
+### 1.4 论文与待开放模型
 
+* **Qwen-Image-2.0-RL**：
 
-    
+  * 地址：https://arxiv.org/abs/2606.27608
+
+  * 简介：Qwen 团队于 2026 年 6 月 25 日公开的强化学习后训练技术报告，围绕 Qwen-Image-2.0 构建文生图与图像编辑奖励体系，并结合 GRPO、混合 CFG、提示词筛选和 on-policy distillation。当前仅有论文，未公开独立 checkpoint。
+
+* **JuZhou 1.0**：
+
+  * 地址：https://arxiv.org/abs/2606.28421
+
+  * 简介：2026 年 6 月 25 日提交的端侧中文文生图技术报告。模型由 0.385B 去噪 UNet 和 1.90M 蒸馏解码器组成，采用 Rectified Flow 与 DMD2 蒸馏，将推理压缩到 4 步；中文对齐阶段使用 900 万精选图文对。目前公开来源为论文，权重仍待开放。
+
 ## 2. 测评
 
 ### 2.1 评测基准
@@ -465,7 +464,7 @@ Awesome-Chinese-Stable-Diffusion
 
   * 地址：https://github.com/TencentQQGYLab/ELLA ![](https://img.shields.io/github/stars/TencentQQGYLab/ELLA.svg)
 
-  * 简介：Dense Prompt Graph Benchmark，由腾讯提出，包含1000条密集/复杂提示词，用于评估文生图模型对详细、多元素描述的指令跟随能力。CogView4在DPG-Bench上综合评分85.13，在开源模型中排名第一。LongCat-Image得分86.8，同样达到顶级水平。该基准是评估中文文生图模型文本理解能力的重要指标。
+  * 简介：Dense Prompt Graph Benchmark，由腾讯提出，包含1000条密集/复杂提示词，用于评估文生图模型对详细、多元素描述的指令跟随能力。CogView4在DPG-Bench上综合评分85.13，LongCat-Image得分86.8。该基准是评估文生图模型文本理解与复杂提示词跟随能力的重要指标。
 
 * **T2I-CompBench**：
 
@@ -473,9 +472,23 @@ Awesome-Chinese-Stable-Diffusion
 
   * 简介：一个全面的组合式文生图评测基准，包含6000条组合式文本提示，覆盖三大类别：属性绑定（颜色、形状、纹理）、物体关系（空间、非空间、复杂）和复杂组合。为每个类别提供专门的评估指标，被Hunyuan-DiT、Kolors、Seedream、SDXL等模型广泛采用。
 
+* **WeGenBench**：
+
+  * 地址：https://github.com/WeChatCV/WeGenBench ![](https://img.shields.io/github/stars/WeChatCV/WeGenBench.svg) | [论文](https://arxiv.org/abs/2606.20100)
+
+  * 简介：微信视觉团队推出的中英双语文生图诊断基准，包含 4,000 条提示词，严格按 General / Text × 中文 / 英文各 1,000 条平衡，覆盖语义一致性、美学质量和视觉文字渲染，并为评分输出可解释理由。代码采用 Apache-2.0，提示数据采用 CC BY-NC 4.0。
+
 * **CVTG-2K**：
 
-  * 简介：Chinese Visual Text Generation 2K，中文视觉文字生成评测基准，包含2000条测试用例。专门评估文生图模型在生成图像中准确渲染中文文字的能力，衡量指标包括Word Accuracy（词准确率）和Normalized Edit Distance（归一化编辑距离）等。Ovis-Image在CVTG-2K上达到SOTA，超越Qwen-Image和GPT4o。LongCat-Image、Hunyuan Image 3.0等模型也在此基准上进行了评测。
+  * 地址：https://github.com/NJU-PCALab/TextCrafter ![](https://img.shields.io/github/stars/NJU-PCALab/TextCrafter.svg)
+
+  * 简介：Complex Visual Text Generation 2K，由 TextCrafter 团队构建，包含 2,000 条复杂视觉文字提示词，覆盖街景、广告和书籍封面等场景；每条提示包含 2～5 个文字区域，其中一半带尺寸、颜色和字体等风格属性。该基准用于评估复杂、多区域文字渲染，并非中文专项基准。
+
+* **AnyText-benchmark**：
+
+  * 地址：https://modelscope.cn/datasets/iic/AnyText-benchmark/summary
+
+  * 简介：AnyText 系列的多语言视觉文字评测集。OCR 准确率部分包含中文 `wukong_word` 与英文 `laion_word` 各 1,000 张，FID 部分中英文各 40,000 张；2025 年 2 月更新了 AnyText2 使用的长描述版本。
 
 * **ChineseWord**：
 
@@ -488,6 +501,8 @@ Awesome-Chinese-Stable-Diffusion
   * 简介：Challenging Cross-Cultural Benchmark，由腾讯AI Lab提出，专门评估文生图模型生成中国及非西方文化场景图像的能力。包含500条挑战性提示词（C3），扩展版C3+包含9889条提示词，平均每条约40个词，远比标准基准复杂。是评估中文文化理解能力的重要基准。
 
 * **OneIG-Bench**：
+
+  * 地址：https://github.com/OneIG-Bench/OneIG-Benchmark ![](https://img.shields.io/github/stars/OneIG-Bench/OneIG-Benchmark.svg)
 
   * 简介：由StepFun提出的综合性文生图评测基准，从多个维度评估模型能力，包括文图对齐、文字渲染、推理能力、风格化和多样性等。Qwen-Image在OneIG-Bench上开源模型排名第一，提供了对图像生成质量的全面评估视角。
 
@@ -537,7 +552,7 @@ Awesome-Chinese-Stable-Diffusion
 
 * **ImageReward**：
 
-  * 地址：https://github.com/THUDM/ImageReward ![](https://img.shields.io/github/stars/THUDM/ImageReward.svg)
+  * 地址：https://github.com/zai-org/ImageReward ![](https://img.shields.io/github/stars/zai-org/ImageReward.svg)
 
   * 简介：由清华大学（THUDM）提出的首个通用人类偏好奖励模型（NeurIPS 2023），可作为文生图模型的评分函数。支持集成到微调流程中（ReFL），用于基于人类偏好的强化学习训练。可以对生成图像的质量、文图对齐度和美学表现进行自动化评分。
 
@@ -552,6 +567,12 @@ Awesome-Chinese-Stable-Diffusion
   * 地址：https://github.com/Schuture/Benchmarking-Awesome-Diffusion-Models ![](https://img.shields.io/github/stars/Schuture/Benchmarking-Awesome-Diffusion-Models.svg)
 
   * 简介：eXplainable Image Quality Evaluation，由港中深提出的基于MiniGPT-4的文生图扩散模型评测策略。使用COCO Caption和DrawBench作为提示词集，提供可解释的质量评估而非仅数值分数，帮助理解模型在不同维度上的表现差异。
+
+* **TextPecker**：
+
+  * 地址：https://github.com/CIawevy/TextPecker ![](https://img.shields.io/github/stars/CIawevy/TextPecker.svg) | [论文](https://arxiv.org/abs/2602.20903)
+
+  * 简介：CVPR 2026 的视觉文字渲染专项 evaluator / reward 框架，可量化文字扭曲、模糊、错位等结构异常及语义一致性。已开放 InternVL3-8B、Qwen3-VL-8B 两个 evaluator、TextPecker-1.5M 数据集，以及训练、强化学习和评测代码（Apache-2.0）。
 
 ### 2.3 排行榜
 
@@ -594,7 +615,7 @@ Awesome-Chinese-Stable-Diffusion
 
   * 地址：https://laion.ai/blog/laion-5b/ | [下载工具](https://github.com/opendatalab/laion5b-downloader) ![](https://img.shields.io/github/stars/opendatalab/laion5b-downloader.svg)
 
-  * 简介：LAION-5B包含58.5亿CLIP过滤的图文对，其中LAION-2B-multi子集包含22.6亿非英文图文对，覆盖100+语言。中文（zh）是其中最大的语言子集之一，估计包含1.7-2亿中文图文对。从Common Crawl网页数据中收集。被多个中文文生图模型使用：MiaoBi（妙笔，清洗后的中文子集）、中文StableDiffusion-通用（DAMO，结合翻译版LAION-400M、CC12M、Open Images）、AltDiffusion（LAION-Aesthetics子集）、VisCPM-Paint（LAION-2B）等。
+  * 简介：LAION-5B包含58.5亿CLIP过滤的图文对，其中LAION-2B-multi子集包含22.6亿非英文图文对，覆盖100+语言。LAION 官方统计中文（zh）图文对约 1.43 亿条，是其中较大的语言子集之一。数据从Common Crawl网页中收集，被MiaoBi、中文StableDiffusion-通用、AltDiffusion和VisCPM-Paint等模型使用。
 
 * **TaiSu（太素）**：
 
@@ -608,6 +629,12 @@ Awesome-Chinese-Stable-Diffusion
 
   * 简介：由BAAI（北京智源人工智能研究院）作为悟道项目的一部分创建的大规模多模态语料库，包含超过6.5亿图文对，涵盖中文和多语言内容。AltCLIP和AltDiffusion使用了悟道数据集（结合LAION）进行训练，CogView系列也使用了悟道数据。
 
+* **AnyWord-3M**：
+
+  * 地址：https://modelscope.cn/datasets/iic/AnyWord-3M/summary
+
+  * 简介：AnyText 系列使用的多语言视觉文字训练集。V1.1 共整理 3,034,486 张图像和 900 万余行文字，约含 160 万张中文、139 万张英文及 1 万张其他语言图像，并补充了 AnyText2 所需的长描述与文字颜色标注。数据来源混合多个公开数据集，使用时仍需核对原始图像的授权条件。
+
 ### 3.2 评测/标注数据集
 
 * **COCO-CN**：
@@ -620,7 +647,7 @@ Awesome-Chinese-Stable-Diffusion
 
   * 地址：https://github.com/ruotianluo/Image_Captioning_AI_Challenger ![](https://img.shields.io/github/stars/ruotianluo/Image_Captioning_AI_Challenger.svg)
 
-  * 简介：AI Challenger大规模数据集的一部分，包含约30万张图像及对应的中文描述标注（21万训练集，8万测试集）。是最早的大规模中文图像描述数据集之一，可用于中文图像描述和视觉-语言模型的评测。
+  * 简介：AI Challenger大规模数据集的一部分，包含约30万张图像及对应的中文描述标注（21万训练集、3万验证集和6万测试集）。是最早的大规模中文图像描述数据集之一，可用于中文图像描述和视觉-语言模型的评测。
 
 * **MUGE（多模态理解与生成评测）**：
 
